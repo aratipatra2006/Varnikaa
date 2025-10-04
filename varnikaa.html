@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Varnikaa</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* CSS Variables for Color Palette */
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warm-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --cool-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        --purple-gradient: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+        --orange-gradient: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
+
+        --text-dark: #2d3748;
+        --text-light: #718096;
+        --white: #ffffff;
+        --light-text-dark-mode: #e2e8f0;
+        --dark-bg-dark-mode: #1a202c;
+        --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+        --border-radius: 12px;
+        --border-radius-lg: 20px;
+        --transition: all 0.3s ease;
+      }
+
+      /* Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background: linear-gradient(45deg, #f0f2f5, #fafbfc);
+        overflow-x: hidden;
+      }
+
+      .hamburger-icon {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-dark);
+      }
+
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background: linear-gradient(45deg, #1a1a2e, #16213e);
+        color: var(--light-text-dark-mode);
+      }
+
+      body.dark-mode .nav {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        border-bottom: 1px solid #4a5568;
+      }
+
+      body.dark-mode .nav a,
+      body.dark-mode .nav i {
+        color: var(--light-text-dark-mode);
+      }
+      
+      body.dark-mode .hamburger-icon {
+        color: var(--light-text-dark-mode);
+      }
+
+      body.dark-mode #searchInput {
+        background: linear-gradient(
+              var(--dark-bg-dark-mode),
+              var(--dark-bg-dark-mode)
+            )
+            padding-box,
+          var(--accent-gradient) border-box;
+        color: var(--light-text-dark-mode);
+      }
+
+      body.dark-mode .nav select {
+        background: var(--primary-gradient);
+        color: var(--light-text-dark-mode);
+      }
+
+      body.dark-mode .fbox,
+      body.dark-mode .fabox {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        color: var(--light-text-dark-mode);
+      }
+
+      body.dark-mode .footer {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        color: var(--light-text-dark-mode);
+      }
+
+      /* Navigation Styles */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+        box-shadow: var(--shadow-medium);
+        border-bottom: 3px solid transparent;
+        border-image: var(--primary-gradient) 1;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: var(--transition);
+      }
+
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      #searchIcon {
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+      }
+
+      .nav .abril-fatface-regular {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--secondary-gradient);
+        transition: var(--transition);
+        z-index: -1;
+      }
+
+      .nav a:hover::before {
+        left: 0;
+      }
+
+      .nav a:hover {
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+      }
+
+      .nav select {
+        padding: 10px 15px;
+        border: 2px solid transparent;
+        border-radius: var(--border-radius);
+        background: var(--cool-gradient);
+        color: var(--text-dark);
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .nav select:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+      }
+
+      /* User Profile Section */
+      .user-profile {
+        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,240,255,0.95));
+        padding: 15px 20px;
+        border-radius: var(--border-radius-lg);
+        margin: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-medium);
+        backdrop-filter: blur(10px);
+      }
+
+      body.dark-mode .user-profile {
+        background: linear-gradient(135deg, rgba(45,55,72,0.95), rgba(74,85,104,0.95));
+        color: var(--light-text-dark-mode);
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .logout-btn {
+        background: var(--secondary-gradient);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+      }
+
+      .nav-links.nav-active {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 15px;
+        gap: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 15px;
+      }
+
+      .nav-links.nav-active a {
+        width: 100%;
+        text-align: center;
+      }
+
+      #searchInput {
+        padding: 12px 40px 12px 20px;
+        border: 2px solid transparent;
+        border-radius: var(--border-radius-lg);
+        background: linear-gradient(white, white) padding-box,
+          var(--accent-gradient) border-box;
+        font-size: 14px;
+        transition: var(--transition);
+        width: 280px;
+      }
+
+      #searchInput:focus {
+        outline: none;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .nav i {
+        color: var(--text-dark);
+        transition: var(--transition);
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 50%;
+      }
+
+      #darkModeToggle,
+      #cartIcon {
+        font-size: 22px;
+      }
+
+      .nav i:hover {
+        background: var(--warm-gradient);
+        color: white !important;
+        transform: scale(1.1);
+        box-shadow: var(--shadow-light);
+      }
+
+      /* Slider Styles */
+      .slider {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+        border-radius: var(--border-radius-lg);
+        margin: 30px;
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .slide {
+        display: flex;
+        height: 100%;
+        width: 500%;
+        transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .slide img {
+        width: 20%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.9) saturate(1.1);
+        transition: filter 0.3s ease;
+      }
+
+      .slide img:hover {
+        filter: brightness(1) saturate(1.3);
+      }
+
+      /* Offer Banner */
+      #offer {
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--warm-gradient);
+        color: white;
+        padding: 30px 50px;
+        border-radius: var(--border-radius-lg);
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        box-shadow: var(--shadow-heavy);
+        z-index: 100;
+        animation: pulse 2s infinite;
+        backdrop-filter: blur(10px);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: translateX(-50%) scale(1);
+        }
+        50% {
+          transform: translateX(-50%) scale(1.05);
+        }
+        100% {
+          transform: translateX(-50%) scale(1);
+        }
+      }
+
+      /* Feature Products Section */
+      .feature {
+        padding: 80px 30px;
+        background: var(--cool-gradient);
+        margin: 50px 0;
+        border-radius: var(--border-radius-lg);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        gap: 30px;
+      }
+
+      .feature p:first-child {
+        font-family: "Playfair Display", serif;
+        font-size: 48px;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 40px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .fbox {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border-radius: var(--border-radius-lg);
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--shadow-medium);
+        transition: var(--transition);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        min-width: 250px;
+        flex: 1;
+      }
+
+      .fbox::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+          from 0deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: var(--transition);
+        opacity: 0;
+      }
+
+      .fbox:hover::before {
+        opacity: 1;
+        animation: rotate 2s linear infinite;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .fbox:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: var(--shadow-heavy);
+        background: var(--purple-gradient);
+        color: white;
+      }
+
+      .fbox img {
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        box-shadow: var(--shadow-light);
+      }
+
+      .fbox:hover img {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: var(--shadow-medium);
+      }
+
+      /* Fashion Section */
+      .fashion {
+        padding: 80px 30px;
+        background: var(--orange-gradient);
+        margin: 50px 0;
+        border-radius: var(--border-radius-lg);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        gap: 30px;
+      }
+
+      .fashion p:first-child {
+        font-family: "Playfair Display", serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 40px;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        width: 100%;
+      }
+
+      .fabox {
+        background: linear-gradient(145deg, #ffffff, #f8f9ff);
+        border-radius: var(--border-radius-lg);
+        padding: 25px;
+        text-align: center;
+        box-shadow: var(--shadow-medium);
+        transition: var(--transition);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        min-width: 220px;
+        flex: 1;
+      }
+
+      .fabox::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: var(--transition);
+      }
+
+      .fabox:hover::after {
+        left: 100%;
+        transition: left 0.6s ease;
+      }
+
+      .fabox:hover {
+        transform: translateY(-15px) rotateY(10deg);
+        box-shadow: var(--shadow-heavy);
+        background: var(--accent-gradient);
+        color: white;
+      }
+
+      .fabox img {
+        width: 150px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        box-shadow: var(--shadow-light);
+      }
+
+      .fabox:hover img {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-medium);
+        filter: brightness(1.1) saturate(1.2);
+      }
+
+      .fabox a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Footer Styles */
+      .footer {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 60px 30px 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 40px;
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--warm-gradient);
+      }
+
+      .footer > div {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .footer p:first-child {
+        font-family: "Abril Fatface", cursive;
+        font-size: 42px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .footer a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+        margin: 5px 0;
+      }
+
+      .footer a:hover {
+        color: white;
+        transform: translateX(5px);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .footer .social-icons {
+        margin-top: 15px;
+      }
+
+      .footer .social-icons a i {
+        font-size: 24px;
+        margin: 0 8px;
+        padding: 0;
+        transition: var(--transition);
+      }
+
+      .footer .social-icons a:hover i {
+        transform: scale(1.2) rotate(10deg);
+        color: white;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .footer .social-icons a:hover {
+        transform: translateX(0);
+      }
+
+      .footer i {
+        margin-right: 10px;
+        color: #ffd700;
+        font-size: 18px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .nav {
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 15px 20px;
+        }
+
+        .nav-links {
+          display: none;
+          order: 3;
+        }
+        
+        .nav-controls {
+            gap: 10px;
+        }
+
+        .hamburger-icon {
+            display: block;
+        }
+
+        #searchInput {
+          width: 150px;
+        }
+
+        .feature p:first-child,
+        .fashion p:first-child {
+          font-size: 40px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav {
+          padding: 15px 15px;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: nowrap;
+        }
+
+        .nav-links.nav-active {
+            width: calc(100% - 30px);
+        }
+
+        .nav .abril-fatface-regular {
+          font-size: 24px;
+        }
+
+        .nav-controls {
+            gap: 5px;
+        }
+        
+        #searchInput {
+            width: 100px;
+        }
+
+        .search-container {
+            display: none;
+        }
+
+        .user-profile {
+          margin: 15px;
+          padding: 10px 15px;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .slider {
+          height: 300px;
+          margin: 20px;
+        }
+
+        #offer {
+          font-size: 20px;
+          padding: 20px 30px;
+          top: 150px;
+        }
+
+        .feature,
+        .fashion {
+          padding: 40px 20px;
+          margin: 30px 0;
+        }
+
+        .feature p:first-child,
+        .fashion p:first-child {
+          font-size: 32px;
+        }
+
+        .fbox,
+        .fabox {
+          min-width: 200px;
+          padding: 20px;
+        }
+
+        .footer {
+          padding: 40px 20px 20px;
+          text-align: center;
+        }
+
+        .footer > div {
+          min-width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav .abril-fatface-regular {
+          font-size: 20px;
+        }
+
+        #searchInput {
+          width: 200px;
+        }
+
+        .slider {
+          height: 250px;
+          margin: 15px;
+        }
+
+        #offer {
+          font-size: 18px;
+          padding: 15px 25px;
+          top: 120px;
+        }
+
+        .feature p:first-child,
+        .fashion p:first-child {
+          font-size: 28px;
+        }
+
+        .fbox,
+        .fabox {
+          min-width: 180px;
+          padding: 15px;
+        }
+
+        .fabox img {
+          width: 120px;
+          height: 140px;
+        }
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 6px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-gradient);
+        border-radius: 6px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary-gradient);
+      }
+
+      /* Hover Effects for Interactive Elements */
+      .fbox:hover,
+      .fabox:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      /* Notification Styles */
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        background: linear-gradient(135deg, #10b981, #059669);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+
+      .notification.error {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- User Profile Section (shown when logged in) -->
+    <div class="user-profile" id="userProfile" style="display: none;">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div>
+          <div style="font-weight: 600;" id="userEmail">Loading...</div>
+          <div style="font-size: 14px; color: var(--text-light);">Welcome back!</div>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+
+    <div class="nav">
+      <div class="abril-fatface-regular">VARNIKAA</div>
+
+      <div id="hamburger-menu" class="hamburger-icon">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <div class="nav-links">
+        <a href="varnikaa.html">Home</a>
+        <a href="About.html">About</a>
+        <a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="nav-controls">
+        <select name="language">
+          <option value="english">English</option>
+          <option value="hindi">हिंदी</option>
+        </select>
+        <form id="searchForm" class="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            name="search"
+            placeholder="Search"
+          />
+          <i
+            class="fas fa-search"
+            id="searchIcon"
+            onclick="document.getElementById('searchForm').submit()"
+          ></i>
+        </form>
+        <i id="darkModeToggle" class="fas fa-moon"></i>
+        <a href="cart.html">
+          <i class="fas fa-shopping-cart" id="cartIcon"></i>
+        </a>
+      </div>
+    </div>
+    <div class="slider">
+      <div class="slide" id="slideContainer">
+        <img src="assets/backimg.webp" alt="Summer Sale" />
+        <img src="assets/backimg1.webp" alt="Summer Sale" />
+        <img src="assets/backimg2.webp" alt="Summer Sale" />
+        <img src="assets/backimg3.webp" alt="Summer Sale" />
+        <img src="assets/backimg4.webp" alt="Summer Sale" />
+      </div>
+    </div>
+    <div id="offer">Flat 50% Off on<br />Summer Collection!</div>
+<div class="feature">
+      <p style="font-size: 50px; padding: 20px 10px; margin-right: 70%"> Feature Products</p>
+      <div class="fbox">
+        <img src="assets/t-shirt.jpg" alt="t-shirt" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 40px; font-weight: 40px; font-size: larger"> Stylish T-Shirts</p>
+      </div>
+      <div class="fbox">
+        <img src="assets/kurtaset.webp" alt="kurtaset" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 60px; font-weight: 40px; font-size: larger"> Kurta Set </p>
+      </div>
+      <div class="fbox">
+        <img src="assets/saree.webp" alt="saree" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 58px; font-weight: 40px; font-size: larger"> Silk-Saree</p>
+      </div>
+      <div class="fbox">
+        <img src="assets/diamond.jpeg" alt="diamond" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 60px; font-weight: 40px; font-size: larger"> Jewellery</p>
+      </div>
+    </div>
+        <div class="fashion">
+      <p style="font-size: 50px; padding: 20px 10px; margin-right: 80%">Fashion</p>
+      <div class="fabox">
+        <a href="saree.html"><img src="assets/banaras.webp" alt="saree" /></a>
+        <p style="margin: 5px 40px; font-weight: 40px; font-size: larger">Banaras-Saree</p>
+      </div>
+      <div class="fabox">
+        <a href="ring.html"><img src="assets/ring1.webp" alt="ring" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Platinum-Rings</p>
+      </div>
+      <div class="fabox">
+        <a href="kurta.html"><img src="assets/kurta.webp" alt="kurta" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Women Kurta-Set</p>
+      </div>
+      <div class="fabox">
+        <a href="neck.html"><img src="assets/neck4.jpg" alt="necklace" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Stylish-Necklace</p>
+      </div>
+      <div class="fabox">
+        <a href="kids.html"><img src="assets/kid.jpg" alt="kids" /></a>
+        <p style="margin: 5px 45px; font-weight: 40px; font-size: larger">Kids-Dresses</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <p>Varnikaa</p>
+        <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
+      </div>
+      <div style="position: relative; top: 60px">
+        <p style="font-size: 25px">About Us</p><br />
+        <a href="#Our Story">Our Story</a><br /><br />
+        <a href="#Blog">Blog</a><br /><br />
+        <div class="social-icons">
+          <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div style="position: relative; top: 60px">
+        <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
+        <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
+        <a href="#Privacy Policy"></a><br /><br />
+        <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
+        <a href="#FAQs">FAQs</a><br /><br />
+        <a href="#Track Orders">Track Orders</a>
+      </div>
+      <div style="position: relative; top: 40px; font-size: 20px">
+        <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
+        <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
+        <i class="fas fa-phone"></i> +91 8915643689
+      </div>
+    </div>
+    <script>
+      // Slider functionality
+      const slideContainer = document.getElementById("slideContainer");
+      const slides = slideContainer.querySelectorAll("img");
+      let currentIndex = 0;
+      let slideInterval;
+
+      function showNextSlide() {
+        currentIndex++;
+        if (currentIndex >= slides.length) {
+          currentIndex = 0;
+        }
+        const translatePercentage = currentIndex * 20;
+        slideContainer.style.transform = `translateX(-${translatePercentage}%)`;
+      }
+
+      function startSlideshow() {
+        slideInterval = setInterval(showNextSlide, 4500);
+      }
+
+      function stopSlideshow() {
+        clearInterval(slideInterval);
+      }
+
+      startSlideshow();
+      slideContainer.addEventListener("mouseenter", stopSlideshow);
+      slideContainer.addEventListener("mouseleave", startSlideshow);
+
+      // Dark mode toggle
+      const toggleIcon = document.getElementById("darkModeToggle");
+      toggleIcon.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+          toggleIcon.classList.remove("fa-moon");
+          toggleIcon.classList.add("fa-sun");
+        } else {
+          toggleIcon.classList.remove("fa-sun");
+          toggleIcon.classList.add("fa-moon");
+        }
+      });
+
+      // Search functionality
+      document.getElementById("searchForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const query = document.getElementById("searchInput").value.trim().toLowerCase();
+        
+        if (query === "saree" || query.includes("saree")) {
+          window.location.href = "saree.html";
+        } else if (query === "kurta" || query.includes("kurta")) {
+          window.location.href = "kurta.html";
+        } else if (query === "necklace" || query.includes("necklace")) {
+          window.location.href = "neck.html";
+        } else if (query === "ring" || query.includes("ring")) {
+          window.location.href = "ring.html";
+        } else if (query === "kids" || query.includes("kids")) {
+          window.location.href = "kids.html";
+        } else {
+          showNotification("No matching result found.", 'error');
+        }
+      });
+
+      // Mobile menu toggle
+      const hamburgerIcon = document.getElementById("hamburger-menu");
+      const navLinks = document.querySelector(".nav-links");
+
+      hamburgerIcon.addEventListener("click", () => {
+        navLinks.classList.toggle("nav-active");
+      });
+
+      // Notification system
+      function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => {
+            if (document.body.contains(notification)) {
+              document.body.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
+    </script>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        updateDoc,
+        arrayUnion,
+      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+      // CORRECTED: Use the same Firebase config as login.html
+      const firebaseConfig = {
+        apiKey: "AIzaSyDXB0f15S4aOjRFe9AAczLhnnLNd2aaCcA",
+        authDomain: "varnikaa-ef5ca.firebaseapp.com",
+        projectId: "varnikaa-ef5ca",
+        storageBucket: "varnikaa-ef5ca.firebasestorage.app",
+        messagingSenderId: "234866466",
+        appId: "1:234866466:web:68c2b3a2e05b70543c877b"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // Authentication state management
+      onAuthStateChanged(auth, (user) => {
+        const userProfile = document.getElementById('userProfile');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        if (user) {
+          // User is logged in - show profile
+          userProfile.style.display = 'flex';
+          userEmail.textContent = user.email;
+          userAvatar.textContent = user.email.charAt(0).toUpperCase();
+          
+          console.log("User logged in:", user.email);
+        } else {
+          // User not logged in - redirect to login
+          window.location.href = "Login.html";
+        }
+      });
+
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        try {
+          await signOut(auth);
+          showNotification("Successfully logged out!", 'success');
+          setTimeout(() => {
+            window.location.href = "Login.html";
+          }, 1000);
+        } catch (error) {
+          console.error("Logout error:", error);
+          showNotification("Error logging out. Please try again.", 'error');
+        }
+      });
+
+      // Save user activity (for future features like favorites, cart, etc.)
+      async function saveUserActivity(activity) {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+          const userRef = doc(db, "users", user.uid);
+          await setDoc(userRef, { activities: [] }, { merge: true });
+          await updateDoc(userRef, {
+            activities: arrayUnion({
+              ...activity,
+              timestamp: Date.now(),
+            }),
+          });
+          console.log("Activity saved:", activity);
+        } catch (error) {
+          console.error("Error saving activity:", error);
+        }
+      }
+
+      // Track product clicks for analytics
+      document.querySelectorAll('.fbox, .fabox').forEach(box => {
+        box.addEventListener('click', (e) => {
+          const productName = box.querySelector('p').textContent.trim();
+          saveUserActivity({
+            type: 'product_view',
+            product: productName
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

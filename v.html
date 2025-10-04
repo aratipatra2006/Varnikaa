@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Varnikaa</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="varnikaa.css">
+  </head>
+  <body>
+    <div class="nav">
+      <div class="abril-fatface-regular">VARNIKAA</div>
+
+      <div id="hamburger-menu" class="hamburger-icon">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <div class="nav-links">
+        <a href="varnikaa.html">Home</a>
+        <a href="About.html">About</a>
+        <a href="shop.html">Shop</a>
+        <a target="_blank" href="Login.html">Login</a>
+      </div>
+
+      <div class="nav-controls">
+        <select name="language">
+          <option value="english">English</option>
+          <option value="hindi">हिंदी</option>
+        </select>
+        <form id="searchForm" class="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            name="search"
+            placeholder="Search"
+          />
+          <i
+            class="fas fa-search"
+            id="searchIcon"
+            onclick="document.getElementById('searchForm').submit()"
+          ></i>
+        </form>
+        <i id="darkModeToggle" class="fas fa-moon"></i>
+        <a href="cart.html">
+          <i class="fas fa-shopping-cart" id="cartIcon"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="slider">
+      <div class="slide" id="slideContainer">
+        <img src="assets/backimg.webp" alt="Summer Sale" />
+        <img src="assets/backimg1.webp" alt="Summer Sale" />
+        <img src="assets/backimg2.webp" alt="Summer Sale" />
+        <img src="assets/backimg3.webp" alt="Summer Sale" />
+        <img src="assets/backimg4.webp" alt="Summer Sale" />
+      </div>
+    </div>
+    <div id="offer">Flat 50% Off on<br />Summer Collection!</div>
+<div class="feature">
+      <p style="font-size: 50px; padding: 20px 10px; margin-right: 70%"> Feature Products</p>
+      <div class="fbox">
+        <img src="assets/t-shirt.jpg" alt="t-shirt" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 40px; font-weight: 40px; font-size: larger"> Stylish T-Shirts</p>
+      </div>
+      <div class="fbox">
+        <img src="assets/kurtaset.webp" alt="kurtaset" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 60px; font-weight: 40px; font-size: larger"> Kurta Set </p>
+      </div>
+      <div class="fbox">
+        <img src="assets/saree.webp" alt="saree" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 58px; font-weight: 40px; font-size: larger"> Silk-Saree</p>
+      </div>
+      <div class="fbox">
+        <img src="assets/diamond.jpeg" alt="diamond" style="width: 100px; height: 120px"/>
+        <p style="margin: 50px 60px; font-weight: 40px; font-size: larger"> Jewellery</p>
+      </div>
+    </div>
+        <div class="fashion">
+      <p style="font-size: 50px; padding: 20px 10px; margin-right: 80%">Fashion</p>
+      <div class="fabox">
+        <a href="saree.html"><img src="assets/banaras.webp" alt="saree" /></a>
+        <p style="margin: 5px 40px; font-weight: 40px; font-size: larger">Banaras-Saree</p>
+      </div>
+      <div class="fabox">
+        <a href="ring.html"><img src="assets/ring1.webp" alt="ring" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Platinum-Rings</p>
+      </div>
+      <div class="fabox">
+        <a href="kurta.html"><img src="assets/kurta.webp" alt="kurta" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Women Kurta-Set</p>
+      </div>
+      <div class="fabox">
+        <a href="neck.html"><img src="assets/neck4.jpg" alt="necklace" /></a>
+        <p style="margin: 5px 30px; font-weight: 40px; font-size: larger"> Stylish-Necklace</p>
+      </div>
+      <div class="fabox">
+        <a href="kids.html"><img src="assets/kid.jpg" alt="kids" /></a>
+        <p style="margin: 5px 45px; font-weight: 40px; font-size: larger">Kids-Dresses</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <p>Varnikaa</p>
+        <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
+      </div>
+      <div style="position: relative; top: 60px">
+        <p style="font-size: 25px">About Us</p><br />
+        <a href="#Our Story">Our Story</a><br /><br />
+        <a href="#Blog">Blog</a><br /><br />
+        <div class="social-icons">
+          <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div style="position: relative; top: 60px">
+        <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
+        <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
+        <a href="#Privacy Policy"></a><br /><br />
+        <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
+        <a href="#FAQs">FAQs</a><br /><br />
+        <a href="#Track Orders">Track Orders</a>
+      </div>
+      <div style="position: relative; top: 40px; font-size: 20px">
+        <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
+        <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
+        <i class="fas fa-phone"></i> +91 8915643689
+      </div>
+    </div>
+    <script>
+      const slideContainer = document.getElementById("slideContainer");
+      const slides = slideContainer.querySelectorAll("img");
+      let currentIndex = 0;
+      let slideInterval;
+
+      function showNextSlide() {
+        currentIndex++;
+        if (currentIndex >= slides.length) {
+          currentIndex = 0;
+        }
+        const translatePercentage = currentIndex * 20;
+        slideContainer.style.transform = `translateX(-${translatePercentage}%)`;
+      }
+
+      function startSlideshow() {
+        slideInterval = setInterval(showNextSlide, 4500);
+      }
+
+      function stopSlideshow() {
+        clearInterval(slideInterval);
+      }
+
+      startSlideshow();
+      slideContainer.addEventListener("mouseenter", stopSlideshow);
+      slideContainer.addEventListener("mouseleave", startSlideshow);
+
+      const toggleIcon = document.getElementById("darkModeToggle");
+      toggleIcon.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+          toggleIcon.classList.remove("fa-moon");
+          toggleIcon.classList.add("fa-sun");
+        } else {
+          toggleIcon.classList.remove("fa-sun");
+          toggleIcon.classList.add("fa-moon");
+        }
+      });
+
+      document
+        .getElementById("searchForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const query = document
+            .getElementById("searchInput")
+            .value.trim()
+            .toLowerCase();
+          if (query === "saree" || query.includes("saree")) {
+            window.location.href = "saree.html";
+          } else if (query === "kurta" || query.includes("kurta")) {
+            window.location.href = "kurta.html";
+          } else if (query === "necklace" || query.includes("necklace")) {
+            window.location.href = "neck.html";
+          } else if (query === "ring" || query.includes("ring")) {
+            window.location.href = "ring.html";
+          } else if (query === "kids" || query.includes("kids")) {
+            window.location.href = "kids.html";
+          } else {
+            alert("No matching result found.");
+          }
+        });
+      const hamburgerIcon = document.getElementById("hamburger-menu");
+      const navLinks = document.querySelector(".nav-links");
+
+      hamburgerIcon.addEventListener("click", () => {
+        navLinks.classList.toggle("nav-active");
+      });
+    </script>
+  </body>
+</html>
