@@ -1127,6 +1127,32 @@
           console.error("Error saving activity:", error);
         }
       }
+      // Function to add a product to the user's Firestore cart
+async function addToCart(productName) {
+    const user = auth.currentUser;
+    if (!user) {
+        // Use your existing showNotification function
+        showNotification("Please sign in to add items to your cart.", 'error'); 
+        return;
+    }
+
+    try {
+        const userRef = doc(db, "users", user.uid);
+        // Add item to the 'cart' array in the user's document
+        await updateDoc(userRef, {
+            cart: arrayUnion({
+                product: productName,
+                quantity: 1, // Start with 1, can be adjusted on cart.html
+                addedAt: Date.now()
+            })
+        });
+        showNotification(`${productName} added to cart!`);
+        // You would also call a function here to update the cart counter UI
+    } catch (error) {
+        console.error("Error adding to cart:", error);
+        showNotification("Failed to add to cart. Try again.", 'error');
+    }
+}
 
       // Track product clicks for analytics
       document.querySelectorAll('.fbox, .fabox').forEach(box => {
