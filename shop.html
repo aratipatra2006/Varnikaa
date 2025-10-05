@@ -164,6 +164,56 @@
         <button class="add-button">ADD TO CART</button>
       </div>
     </div>
+    <div id="productModal" class="product-modal" aria-hidden="true">
+  <div class="product-modal__backdrop" id="modalBackdrop"></div>
+  <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button id="modalClose" class="modal-close" aria-label="Close product details">&times;</button>
+
+    <div class="modal-grid">
+      <div class="modal-left">
+        <img id="modalMainImg" src="" alt="Product image" />
+        <div id="modalThumbs" class="modal-thumbs"></div>
+      </div>
+
+      <div class="modal-right">
+        <h2 id="modalTitle"></h2>
+        <div id="modalPrice" class="modal-price"></div>
+        <p id="modalDesc" class="modal-desc"></p>
+
+        <div class="modal-actions">
+          <button id="modalAddCart" class="btn">Add to cart</button>
+          <button id="modalBuyNow" class="btn secondary">Buy now</button>
+        </div>
+
+        <hr>
+
+        <section id="modalReviews">
+          <h3>Reviews</h3>
+          <div id="reviewsList"></div>
+          <div id="noReviews" class="empty" style="display:none">No reviews yet. Be the first!</div>
+
+          <div class="review-form">
+            <input id="reviewerNameModal" type="text" placeholder="Your name" />
+            <select id="reviewRatingModal">
+              <option value="">Rating</option>
+              <option value="5">5 — Excellent</option>
+              <option value="4">4 — Good</option>
+              <option value="3">3 — Okay</option>
+              <option value="2">2 — Poor</option>
+              <option value="1">1 — Bad</option>
+            </select>
+            <textarea id="reviewTextModal" placeholder="Write your review..."></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button id="submitReviewModal" class="btn">Submit review</button>
+              <button id="clearReviewModal" class="btn secondary">Clear</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="footer">
       <div>
         <p>Varnikaa</p>
@@ -195,53 +245,213 @@
       </div>
     </div>
     <script>
-  const toggleIcon = document.getElementById("darkModeToggle");
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    // --- Utility ---
+    const escapeHtml = (s = '') => (s + '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
 
-  toggleIcon.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-
-    // Toggle icon
-    if (document.body.classList.contains("dark-mode")) {
-      toggleIcon.classList.remove("fa-moon");
-      toggleIcon.classList.add("fa-sun");
-    } else {
-      toggleIcon.classList.remove("fa-sun");
-      toggleIcon.classList.add("fa-moon");
+    function makeIdFromIndex(index) {
+      return 'p-' + String(index + 1).padStart(3, '0');
     }
-  });
-  const addButtons = document.querySelectorAll('.add-button');
 
-addButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const product = button.closest('.product');
-    const title = product.querySelector('.product-title').innerText;
-    const price = product.querySelector('.product-price').innerText;
-    const img = product.querySelector('img').src;
+    // --- Modal elements (ensure they exist) ---
+    const modal = document.getElementById('productModal');
+    if (!modal) {
+      console.warn('Product modal element (#productModal) not found — modal script will not run.');
+      return;
+    }
+    const backdrop = document.getElementById('modalBackdrop');
+    const closeBtn = document.getElementById('modalClose');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalMainImg = document.getElementById('modalMainImg');
+    const modalThumbs = document.getElementById('modalThumbs');
+    const reviewsList = document.getElementById('reviewsList');
+    const noReviews = document.getElementById('noReviews');
+    const submitReviewBtn = document.getElementById('submitReviewModal');
+    const clearReviewBtn = document.getElementById('clearReviewModal');
+    const reviewerName = document.getElementById('reviewerNameModal');
+    const reviewRating = document.getElementById('reviewRatingModal');
+    const reviewText = document.getElementById('reviewTextModal');
+    const modalAddCart = document.getElementById('modalAddCart');
 
-    const productData = { title, price, img };
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(productData);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.location.href = "cart.html";
-  });
+    // If any crucial elements missing, warn and stop gracefully
+    const required = {backdrop, closeBtn, modalTitle, modalMainImg, modalThumbs, submitReviewBtn, modalAddCart};
+    for (const [k,v] of Object.entries(required)) {
+      if (!v) {
+        console.warn(`Modal required element "${k}" not found — modal features may be limited.`);
+      }
+    }
+
+    // --- Wire products (attach data-id if missing) ---
+    const productEls = document.querySelectorAll('.product');
+    productEls.forEach((el, i) => {
+      if (!el.dataset.id) el.dataset.id = makeIdFromIndex(i);
+      el.style.cursor = 'pointer';
+
+      el.addEventListener('click', (ev) => {
+        // Ignore clicks on ADD TO CART button - let existing handler run
+        if (ev.target.closest('.add-button')) return;
+        openProductModal(el.dataset.id, el);
+      });
+    });
+
+    // open / close modal helpers
+    function openProductModal(id, productEl) {
+      if (!productEl) return;
+      const title = productEl.querySelector('.product-title')?.innerText?.trim() || 'Product';
+      const price = productEl.querySelector('.product-price')?.innerText?.trim() || '';
+      const mainImgSrc = productEl.querySelector('img')?.src || '';
+
+      // read images from data-images JSON (optional) else fall back to single image
+      let images = [ mainImgSrc ];
+      if (productEl.dataset.images) {
+        try {
+          const arr = JSON.parse(productEl.dataset.images);
+          if (Array.isArray(arr) && arr.length) images = arr;
+        } catch (e) {
+          console.warn('Invalid JSON in data-images attribute for product:', e);
+        }
+      }
+
+      // populate modal
+      if (modalTitle) modalTitle.textContent = title;
+      if (modalPrice) modalPrice.textContent = price;
+      if (modalDesc) modalDesc.textContent = productEl.dataset.desc || '';
+      if (modalMainImg) { modalMainImg.src = images[0] || ''; modalMainImg.alt = title; }
+
+      // thumbnails
+      if (modalThumbs) {
+        modalThumbs.innerHTML = '';
+        images.forEach((src, idx) => {
+          const t = document.createElement('img');
+          t.src = src;
+          t.className = idx === 0 ? 'thumb selected' : 'thumb';
+          t.addEventListener('click', () => {
+            if (modalMainImg) modalMainImg.src = src;
+            modalThumbs.querySelectorAll('img').forEach(x => x.classList.remove('selected'));
+            t.classList.add('selected');
+          });
+          modalThumbs.appendChild(t);
+        });
+      }
+
+      // load reviews
+      loadReviewsFor(id);
+
+      // modal Add to cart (defensive)
+      if (modalAddCart) {
+        modalAddCart.onclick = () => {
+          const productData = { id, title, price, img: images[0] };
+          const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+          cart.push(productData);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          modalAddCart.classList.add('success');
+          setTimeout(()=> modalAddCart.classList.remove('success'), 700);
+        };
+      }
+
+      // show modal
+      modal.setAttribute('aria-hidden','false');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (submitReviewBtn) submitReviewBtn.focus();
+      modal.dataset.currentId = id;
+    }
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden','true');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (reviewerName) reviewerName.value = '';
+      if (reviewRating) reviewRating.value = '';
+      if (reviewText) reviewText.value = '';
+      if (reviewsList) reviewsList.innerHTML = '';
+      if (noReviews) noReviews.style.display = 'none';
+      modal.dataset.currentId = '';
+    }
+
+    // close handlers
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+    // reviews storage & display
+    function loadReviewsFor(id) {
+      const key = 'reviews:' + id;
+      let arr = [];
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw) arr = JSON.parse(raw);
+      } catch (e) { arr = []; console.warn('Failed to parse reviews from localStorage', e); }
+      renderReviews(arr);
+    }
+
+    function renderReviews(list = []) {
+      if (!reviewsList) return;
+      reviewsList.innerHTML = '';
+      if (!list.length) {
+        if (noReviews) noReviews.style.display = 'block';
+        return;
+      }
+      if (noReviews) noReviews.style.display = 'none';
+      list.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'review';
+        const time = r.time ? new Date(r.time).toLocaleString() : '';
+        el.innerHTML = '<div class="meta"><span class="rating">★ ' + (r.rating||'') + '</span> <strong>' + escapeHtml(r.name||'') + '</strong> <span style="margin-left:8px;color:#888;font-size:13px">' + escapeHtml(time) + '</span></div>' +
+                       '<div class="body">' + escapeHtml(r.text||'') + '</div>';
+        reviewsList.appendChild(el);
+      });
+    }
+
+    // submit review
+    if (submitReviewBtn) {
+      submitReviewBtn.addEventListener('click', () => {
+        const id = modal.dataset.currentId;
+        if (!id) return;
+        const name = (reviewerName && reviewerName.value.trim()) || 'Anonymous';
+        const rating = parseInt(reviewRating && reviewRating.value);
+        const text = reviewText && reviewText.value.trim();
+        if (!rating || !text) {
+          showTempNotif('Please provide rating and review text', 'error');
+          return;
+        }
+        const key = 'reviews:' + id;
+        const cur = JSON.parse(localStorage.getItem(key) || '[]');
+        cur.unshift({ name, rating, text, time: Date.now() });
+        localStorage.setItem(key, JSON.stringify(cur));
+        renderReviews(cur);
+        if (reviewerName) reviewerName.value = '';
+        if (reviewRating) reviewRating.value = '';
+        if (reviewText) reviewText.value = '';
+        showTempNotif('Review added', 'success');
+      });
+    }
+
+    if (clearReviewBtn) {
+      clearReviewBtn.addEventListener('click', () => {
+        if (reviewerName) reviewerName.value = '';
+        if (reviewRating) reviewRating.value = '';
+        if (reviewText) reviewText.value = '';
+      });
+    }
+
+    function showTempNotif(msg, type='success') {
+      const n = document.createElement('div');
+      n.className = 'notification ' + (type === 'success' ? 'success' : 'error');
+      n.textContent = msg;
+      document.body.appendChild(n);
+      setTimeout(()=> n.classList.add('show'), 20);
+      setTimeout(()=> { n.classList.remove('show'); setTimeout(()=> n.remove(), 300); }, 2000);
+    }
+
+  } catch (err) {
+    console.error('Unexpected error in product modal script:', err);
+  }
 });
-document.getElementById("searchForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const query = document.getElementById("searchInput").value.trim().toLowerCase();
-    if (query === "saree" || query.includes("saree")) {
-      window.location.href = "saree.html";
-    }else if (query === "kurta" || query.includes("kurta")) {
-      window.location.href = "kurta.html";
-    }else if (query === "necklace" || query.includes("necklace")) {
-      window.location.href = "neck.html";
-    }else if (query === "ring" || query.includes("ring")) {
-      window.location.href = "ring.html";
-    }else if (query === "kids" || query.includes("kids")) {
-      window.location.href = "kids.html";
-    }else {
-      alert("No matching result found.");
-    }
-  });
 </script>
+
   </body>
 </html>
