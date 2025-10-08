@@ -11,160 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Federant&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="headerHead">
-        <div class="abril-fatface-regular" style="display: inline-block; font-size: 30px; font-weight: bold; text-align: center; margin-left: 30px; color: rgb(27, 55, 70);">VARNIKAA</div>
-        <div class="search">
-            <form id="searchForm">
-                <input type="text" id="searchInput" name="search" placeholder="Try or Search Saree, kurta, necklace, ring and kids wear">
-                <i class="fas fa-search"></i>
-            </form>
-        </div>
-        <div class="seperator"></div>
-        <a href="cart.html">
-            <i class="fas fa-shopping-cart" style="font-size: xx-large;"></i>
-        </a>
-    </div>
-    <div class="nav">
-        <a href="varnikaa.html">Home</a>
-        <a href="About.html">About</a>
-        <a href="shop.html">Shop</a>
-        <a target="_blank" href="contact.html">Contact</a>
-        <select name="language" style="margin-left: 150px; padding: 5px;background-color: lightcyan;">
-            <option value="english">English</option>
-            <option value="hindi">हिंदी</option><br /><br />
-        </select>
-        <i id="darkModeToggle" class="fas fa-moon" style="font-size: 22px; cursor: pointer;"></i>
-    </div>
     
-    <div class="section-title">Shop</div>
-    
-    <div class="shop-container">
-        
-        <aside class="filter-sidebar">
-            <h3>Refine Products</h3>
-            
-            <div class="filter-group">
-                <h4>Category</h4>
-                <select id="categoryFilter" onchange="applyFilters()">
-                    <option value="all">All Categories</option>
-                    </select>
-            </div>
-
-            <div class="filter-group">
-                <h4>Max Price</h4>
-                <input type="range" id="priceRange" min="500" max="85000" value="85000" step="100" oninput="updatePriceLabel(); applyFilters()">
-                <span id="priceValue">Max: ₹85,000</span>
-            </div>
-
-            <div class="filter-group rating-checkbox-group">
-                <h4>Customer Rating</h4>
-                <label><input type="checkbox" name="rating" value="4.5" onchange="applyFilters()"> 4.5 Stars & Up</label>
-                <label><input type="checkbox" name="rating" value="4.0" onchange="applyFilters()"> 4.0 Stars & Up</label>
-                <label><input type="checkbox" name="rating" value="3.5" onchange="applyFilters()"> 3.5 Stars & Up</label>
-            </div>
-            
-            <button class="add-button reset-button" onclick="resetFilters()">
-                <i class="fas fa-redo"></i> Reset Filters
-            </button>
-        </aside>
-
-        <main class="product-content">
-            <div class="sort-bar">
-                <label for="sortOrder">Sort By:</label>
-                <select id="sortOrder" onchange="applyFilters()">
-                    <option value="default">Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                </select>
-            </div>
-
-            <div id="productGrid" class="product-list">
-                </div>
-            
-             <p id="noProductsMessage" style="text-align: center; margin-top: 50px; font-style: italic; color: var(--text-light); display: none;">No products match your current filters.</p>
-        </main>
-    </div>
-    
-    <div id="productModal" class="product-modal" aria-hidden="true">
-        <div class="product-modal__backdrop" id="modalBackdrop"></div>
-        <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button id="modalClose" class="modal-close" aria-label="Close product details">&times;</button>
-            <div class="modal-grid">
-                <div class="modal-left">
-                    <img id="modalMainImg" src="" alt="Product image" />
-                    <div id="modalThumbs" class="modal-thumbs"></div>
-                </div>
-                <div class="modal-right">
-                    <h2 id="modalTitle"></h2>
-                    <div id="modalPrice" class="modal-price"></div>
-                    <p id="modalDesc" class="modal-desc"></p>
-                    <div class="modal-actions">
-                        <button id="modalAddCart" class="btn">Add to cart</button>
-                        <button id="modalBuyNow" class="btn secondary">Buy now</button>
-                    </div>
-                    <hr>
-                    <section id="modalReviews">
-                        <h3>Reviews</h3>
-                        <div id="reviewsList"></div>
-                        <div id="noReviews" class="empty" style="display:none">No reviews yet. Be the first!</div>
-                        <div class="review-form">
-                            <input id="reviewerNameModal" type="text" placeholder="Your name" />
-                            <select id="reviewRatingModal">
-                                <option value="">Rating</option>
-                                <option value="5">5 — Excellent</option>
-                                <option value="4">4 — Good</option>
-                                <option value="3">3 — Okay</option>
-                                <option value="2">2 — Poor</option>
-                                <option value="1">1 — Bad</option>
-                            </select>
-                            <textarea id="reviewTextModal" placeholder="Write your review..."></textarea>
-                            <div style="display:flex;gap:8px;margin-top:8px">
-                                <button id="submitReviewModal" class="btn">Submit review</button>
-                                <button id="clearReviewModal" class="btn secondary">Clear</button>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer">
-        <div>
-            <p>Varnikaa</p>
-            <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
-        </div>
-        <div style="position: relative; top: 60px">
-            <p style="font-size: 25px">About Us</p><br />
-            <a href="#Our Story">Our Story</a><br /><br />
-            <a href="#Blog">Blog</a><br /><br />
-            <div class="social-icons">
-                <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            </div>
-        </div>
-        <div style="position: relative; top: 60px">
-            <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
-            <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
-            <a href="#Privacy Policy"></a><br /><br />
-            <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
-            <a href="#FAQs">FAQs</a><br /><br />
-            <a href="#Track Orders">Track Orders</a>
-        </div>
-        <div style="position: relative; top: 40px; font-size: 20px">
-            <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
-            <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
-            <i class="fas fa-phone"></i> +91 8915643689
-        </div>
-    </div>
-
     <style>
-        /* Replicating key variables from your existing CSS for context */
+        /* CSS Variables */
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --warm-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
@@ -177,7 +26,7 @@
             --border-radius-lg: 20px;
         }
 
-        /* 1. MAIN SHOP LAYOUT */
+        /* 1. SHOP LAYOUT */
         .shop-container {
             display: flex;
             max-width: 1400px;
@@ -244,60 +93,253 @@
         .sort-bar label { font-weight: 500; color: var(--text-dark); margin-right: 10px; }
         .sort-bar select { width: 200px; }
 
-        /* 4. PRODUCT GRID ADJUSTMENTS */
-        #productGrid {
-             display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-             gap: 30px;
-             padding: 0; 
-             margin: 0;
+        /* 4. PRODUCT GRID & CARD STYLES */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0; 
+            margin: 0;
         }
-        
         .product-rating { color: #f59e0b; margin-top: 5px; }
+        .product {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+            background-color: var(--white);
+        }
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .product img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
 
-        /* 5. DARK MODE OVERRIDES */
+        /* 5. MODAL STYLES (for Quick View) */
+        .product-modal.open { display: block !important; }
+        .review { padding: 10px 0; border-bottom: 1px dotted #eee; }
+        .review:last-child { border-bottom: none; }
+        .review .meta .rating { color: #f59e0b; }
+        .review-form input, .review-form textarea, .review-form select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .review-form button { margin-top: 5px; }
+
+        /* 6. DARK MODE OVERRIDES */
         body.dark-mode .filter-sidebar { background-color: #2d3748; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6); }
         body.dark-mode .filter-group h4,
         body.dark-mode .sort-bar label { color: var(--light-text-dark-mode); }
         body.dark-mode .filter-sidebar select, 
         body.dark-mode .filter-sidebar input[type="range"],
-        body.dark-mode .sort-bar select { background-color: #1a202c; border-color: #4a5568; color: var(--light-text-dark-mode); }
+        body.dark-mode .sort-bar select { background-color: #1a202c; border-color: #4a5568; color: var(--light-text-dark-mode);}
         body.dark-mode .filter-group { border-bottom-color: #4a5568; }
+        body.dark-mode .product { background-color: #2d3748; border-color: #4a5568; color: var(--light-text-dark-mode);}
+        body.dark-mode .product-modal__panel { background: #1a202c; color: var(--light-text-dark-mode); }
+        body.dark-mode .review-form input, body.dark-mode .review-form textarea, body.dark-mode .review-form select { background: #34495e; border-color: #4a5568; color: var(--light-text-dark-mode);}
 
-        /* 6. RESPONSIVE ADJUSTMENTS */
+        /* 7. RESPONSIVE ADJUSTMENTS */
         @media (max-width: 900px) {
             .shop-container { flex-direction: column; padding: 20px 15px 40px; }
             .filter-sidebar { width: 100%; position: static; margin-bottom: 20px; }
+            .product-modal__panel { width: 95%; }
+            .modal-grid { flex-direction: column; }
+            .modal-left { order: 2; }
+            .modal-right { order: 1; }
         }
     </style>
+</head>
+<body>
+    <div class="headerHead">
+        <div class="abril-fatface-regular" style="display: inline-block; font-size: 30px; font-weight: bold; text-align: center; margin-left: 30px; color: rgb(27, 55, 70);">VARNIKAA</div>
+        <div class="search">
+            <form id="searchForm">
+                <input type="text" id="searchInput" name="search" placeholder="Search product name or keyword">
+                <i class="fas fa-search"></i>
+            </form>
+        </div>
+        <div class="seperator"></div>
+        <a href="cart.html">
+            <i class="fas fa-shopping-cart" style="font-size: xx-large;"></i>
+        </a>
+    </div>
+    <div class="nav">
+        <a href="varnikaa.html">Home</a>
+        <a href="About.html">About</a>
+        <a href="shop.html">Shop</a>
+        <a target="_blank" href="contact.html">Contact</a>
+        <select name="language" style="margin-left: 150px; padding: 5px;background-color: lightcyan;">
+            <option value="english">English</option>
+            <option value="hindi">हिंदी</option><br /><br />
+        </select>
+        <i id="darkModeToggle" class="fas fa-moon" style="font-size: 22px; cursor: pointer;"></i>
+    </div>
+    
+    <div class="section-title">Shop All Products</div>
+    
+    <div class="shop-container">
+        
+        <aside class="filter-sidebar">
+            <h3>Refine Products</h3>
+            
+            <div class="filter-group">
+                <h4>Category</h4>
+                <select id="categoryFilter" onchange="applyFilters()">
+                    <option value="all">All Categories</option>
+                    </select>
+            </div>
+
+            <div class="filter-group">
+                <h4>Max Price</h4>
+                <input type="range" id="priceRange" min="500" max="330000" value="330000" step="1000" oninput="updatePriceLabel(); applyFilters()">
+                <span id="priceValue">Max: ₹3,30,000</span>
+            </div>
+
+            <div class="filter-group rating-checkbox-group">
+                <h4>Customer Rating</h4>
+                <label><input type="checkbox" name="rating" value="4.5" onchange="applyFilters()"> 4.5 Stars & Up</label>
+                <label><input type="checkbox" name="rating" value="4.0" onchange="applyFilters()"> 4.0 Stars & Up</label>
+                <label><input type="checkbox" name="rating" value="3.5" onchange="applyFilters()"> 3.5 Stars & Up</label>
+            </div>
+            
+            <button class="add-button reset-button" onclick="resetFilters()">
+                <i class="fas fa-redo"></i> Reset Filters
+            </button>
+        </aside>
+
+        <main class="product-content">
+            <div class="sort-bar">
+                <label for="sortOrder">Sort By:</label>
+                <select id="sortOrder" onchange="applyFilters()">
+                    <option value="default">Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                </select>
+            </div>
+
+            <div id="productGrid" class="product-list">
+            </div>
+            
+             <p id="noProductsMessage" style="text-align: center; margin-top: 50px; font-style: italic; color: var(--text-light); display: none;">No products match your current filters.</p>
+        </main>
+    </div>
+    
+    <div id="productModal" class="product-modal" aria-hidden="true" style="display:none;">
+        <div class="product-modal__backdrop" id="modalBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001;"></div>
+        <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" 
+             style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; max-width: 900px; width: 90%; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            
+            <button id="modalClose" class="modal-close" aria-label="Close product details" style="position: absolute; top: 10px; right: 20px; font-size: 30px; border: none; background: transparent; cursor: pointer;">&times;</button>
+            
+            <div class="modal-grid" style="display: flex; gap: 20px;">
+                <div class="modal-left" style="flex: 1;">
+                    <img id="modalMainImg" src="" alt="Product image" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px;" />
+                </div>
+                
+                <div class="modal-right" style="flex: 1; display: flex; flex-direction: column;">
+                    <h2 id="modalTitle" style="font-size: 1.8em; margin-bottom: 10px;"></h2>
+                    <div id="modalPrice" class="modal-price" style="font-size: 1.5em; color: #764ba2; font-weight: bold; margin-bottom: 15px;"></div>
+                    <p id="modalDesc" class="modal-desc" style="margin-bottom: 20px; font-size: 0.9em;"></p>
+                    
+                    <div class="modal-actions" style="margin-bottom: 20px;">
+                        <button id="modalAddCart" class="btn add-button">Add to Cart</button>
+                    </div>
+                    
+                    <hr style="border: 0; height: 1px; background: #eee; margin: 10px 0;">
+                    
+                    <section id="modalReviews" style="flex-grow: 1; overflow-y: auto;">
+                        <h3 style="font-size: 1.2em; margin-bottom: 10px;">Customer Reviews</h3>
+                        <div id="reviewsList" style="max-height: 200px; overflow-y: auto; padding-right: 10px;"></div>
+                        <div id="noReviews" class="empty" style="display:none; color: #999; margin-top: 10px;">No reviews yet. Be the first!</div>
+                        
+                        <div class="review-form" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                            <input id="reviewerNameModal" type="text" placeholder="Your name" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;" />
+                            <select id="reviewRatingModal" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                                <option value="">Rating</option>
+                                <option value="5">5 — Excellent</option>
+                                <option value="4">4 — Good</option>
+                                <option value="3">3 — Okay</option>
+                                <option value="2">2 — Poor</option>
+                                <option value="1">1 — Bad</option>
+                            </select>
+                            <textarea id="reviewTextModal" placeholder="Write your review..." style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; min-height: 80px;"></textarea>
+                            <button id="submitReviewModal" class="btn add-button" style="background: #27ae60;">Submit review</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div>
+            <p>Varnikaa</p>
+            <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
+        </div>
+        <div style="position: relative; top: 60px">
+            <p style="font-size: 25px">About Us</p><br />
+            <a href="#Our Story">Our Story</a><br /><br />
+            <a href="#Blog">Blog</a><br /><br />
+            <div class="social-icons">
+                <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div style="position: relative; top: 60px">
+            <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
+            <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
+            <a href="#Privacy Policy"></a><br /><br />
+            <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
+            <a href="#FAQs">FAQs</a><br /><br />
+            <a href="#Track Orders">Track Orders</a>
+        </div>
+        <div style="position: relative; top: 40px; font-size: 20px">
+            <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
+            <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
+            <i class="fas fa-phone"></i> +91 8915643689
+        </div>
+    </div>
 
     <script>
-        
-        // --- 1. PRODUCT DATA (Extracted from your HTML) ---
+        // --- 1. CONSOLIDATED MASTER PRODUCT DATA ---
         const initialProducts = [
+             // SAREES
             { id: "saree-001", title: "Dark Green Silk Minakari Banarasi Saree", category: "Sarees", price: 2629, rating: 4.5, image: "assets/saree2.webp", desc: "Exquisite Banarasi silk saree with detailed minakari work." },
             { id: "saree-002", title: "Karagiri Multicolor Banarasi Silk Saree with Blouse Piece", category: "Sarees", price: 6079, rating: 4.8, image: "assets/saree5.webp", desc: "Multicolor silk saree, perfect for weddings and festive occasions." },
             { id: "saree-003", title: "Alkananda In True Purple Handloom Banarasi Silk Saree", category: "Sarees", price: 23850, rating: 4.7, image: "assets/saree18.webp", desc: "A luxurious purple handloom saree with heavy zari work." },
             { id: "saree-004", title: "Elegant Pink Banarasi Silk Saree with Paisley Design, Zari Weaving, and Tassels", category: "Sarees", price: 1549, rating: 3.9, image: "assets/saree20.jpg", desc: "Affordable and elegant pink saree, ideal for daily wear or small events." },
-            { id: "kurta-001", title: "RangDeep Floral Printed Regular Pure Cotton", category: "Kurtas", price: 1610, rating: 4.1, image: "assets/kurta1.webp", desc: "Comfortable and stylish pure cotton floral printed kurta." },
+            // KURTAS
+            { id: "kurta-001", title: "RangDeep Floral Printed Regular Pure Cotton Kurta", category: "Kurtas", price: 1610, rating: 4.1, image: "assets/kurta1.webp", desc: "Comfortable and stylish pure cotton floral printed kurta." },
             { id: "kurta-002", title: "Women Floral Embroidered Regular Kurta with Trouser", category: "Kurtas", price: 1689, rating: 4.2, image: "assets/kurta10.jpg", desc: "Embroidered kurta set including matching trousers." },
             { id: "kurta-003", title: "Off-White Printed Cotton Straight Kurta With Palazzos & Dupatta", category: "Kurtas", price: 1499, rating: 4.0, image: "assets/kurta12.jpg", desc: "Complete cotton set for a classic, elegant look." },
-            { id: "kurta-004", title: "Rajasthani Angrakha Cotton Kurta Set with Palazzo For Women", category: "Kurtas", price: 1849, rating: 4.6, image: "assets/kurta20.webp", desc: "Traditional Angrakha style kurta with palazzo pants." },
+            { id: "kurta-004", title: "Rajasthani Angrakha Cotton Kurta Set with Palazzo", category: "Kurtas", price: 1849, rating: 4.6, image: "assets/kurta20.webp", desc: "Traditional Angrakha style kurta with palazzo pants." },
+            // RINGS
             { id: "ring-001", title: "Ben Platinum Band for Woman", category: "Rings", price: 42196, rating: 5.0, image: "assets/ring2.webp", desc: "Simple yet elegant platinum band ring." },
             { id: "ring-002", title: "Precious Platinum Ring", category: "Rings", price: 78464, rating: 4.9, image: "assets/ring10.jpg", desc: "A high-end platinum ring with diamond accents." },
             { id: "ring-003", title: "Platinum couple ring", category: "Rings", price: 25425, rating: 4.4, image: "assets/ring13.jpg", desc: "A stylish platinum ring, often bought as a set." },
             { id: "ring-004", title: "9 Pointer Platinum Diamond Ring", category: "Rings", price: 81400, rating: 5.0, image: "assets/ring18.jpg", desc: "A dazzling 9-pointer diamond ring set in platinum." },
+            // NECKLACES
             { id: "necklace-001", title: "Antique Lakshmi Pendant Necklace Chain", category: "Necklaces", price: 1099, rating: 3.8, image: "assets/neck20.webp", desc: "Traditional antique gold-plated necklace with a Lakshmi pendant." },
             { id: "necklace-002", title: "Orna Zircom American Diamond Silver Necklace Set", category: "Necklaces", price: 1351, rating: 4.2, image: "assets/neck19.webp", desc: "A budget-friendly American diamond necklace set." },
             { id: "necklace-003", title: "Orna Zircom American Diamond Rose Gold Necklace Set", category: "Necklaces", price: 1399, rating: 4.0, image: "assets/neck18.jpg", desc: "Rose gold finish American diamond necklace for a modern look." },
             { id: "necklace-004", title: "Gopika, Premium Gold Jewellery Finish Bridal Long Diamond Necklace Set for Women", category: "Necklaces", price: 5497, rating: 4.9, image: "assets/neck9.webp", desc: "A gorgeous bridal necklace set, heavy and detailed." },
+            // KIDS WEAR
             { id: "kids-001", title: "Party wear Birthday Frock", category: "Kids Wear", price: 3329, rating: 4.6, image: "assets/kid1.webp", desc: "Beautiful party frock perfect for birthdays." },
             { id: "kids-002", title: "Multi Color Designer Gown for Girls", category: "Kids Wear", price: 4450, rating: 4.5, image: "assets/kid9.webp", desc: "A stunning designer gown for young girls." },
             { id: "kids-003", title: "Traditional Embroidered Girls Palazzo Set", category: "Kids Wear", price: 3290, rating: 4.1, image: "assets/kid11.webp", desc: "Comfortable and stylish embroidered palazzo set." },
             { id: "kids-004", title: "Rama Sequin Midi for Girls", category: "Kids Wear", price: 2130, rating: 3.5, image: "assets/kid17.webp", desc: "A fun midi dress with sequin detailing." }
         ];
 
-        // --- 2. DOM Elements (Shop) ---
+        // --- 2. DOM Elements ---
         const productGrid = document.getElementById('productGrid');
         const categoryFilter = document.getElementById('categoryFilter');
         const priceRange = document.getElementById('priceRange');
@@ -306,10 +348,26 @@
         const noProductsMessage = document.getElementById('noProductsMessage');
         const allRatingCheckboxes = document.querySelectorAll('input[name="rating"]');
         const darkModeToggle = document.getElementById("darkModeToggle");
-
+        const searchInput = document.getElementById('searchInput');
+        const searchFormRef = document.getElementById('searchForm'); // renamed to avoid re-declaration
+        const maxPriceDefault = 330000; // Reset to all products max
+        
+        // Modal DOM elements (may be null if modal markup missing)
+        const modal = document.getElementById('productModal');
+        const modalCloseBtn = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalMainImg = document.getElementById('modalMainImg');
+        const modalAddCartBtn = document.getElementById('modalAddCart');
+        const reviewsList = document.getElementById('reviewsList');
+        const noReviews = document.getElementById('noReviews');
+        const submitReviewBtn = document.getElementById('submitReviewModal');
+        const reviewerNameInput = document.getElementById('reviewerNameModal');
+        const reviewRatingSelect = document.getElementById('reviewRatingModal');
+        const reviewTextInput = document.getElementById('reviewTextModal');
 
         // --- 3. HELPER FUNCTIONS ---
-
         function getStarRatingHTML(rating) {
             const fullStars = Math.floor(rating);
             const halfStar = rating % 1 !== 0;
@@ -323,206 +381,58 @@
                     starsHTML += '<i class="far fa-star" style="color:#ccc;"></i>'; 
                 }
             }
-            return `<span style="font-size:1.2em; margin-right:5px;">${starsHTML}</span> (${rating})`;
-        }
-
-        function populateCategoryFilter() {
-            const categories = [...new Set(initialProducts.map(p => p.category))];
-            categories.sort().forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                categoryFilter.appendChild(option);
-            });
+            return `<span style="font-size:1.2em; margin-right:5px;">${starsHTML}</span> (${Number(rating).toFixed(1)})`;
         }
         
         function updatePriceLabel() {
-            priceValue.textContent = `Max: ₹${parseInt(priceRange.value).toLocaleString('en-IN')}`;
+            if (!priceRange || !priceValue) return;
+            priceValue.textContent = `Max: ₹${parseInt(priceRange.value || maxPriceDefault).toLocaleString('en-IN')}`;
+        }
+        
+        function escapeHtml(s = '') {
+            return (s + '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+        }
+        
+        function showTempNotif(msg, type='success') {
+            const n = document.createElement('div');
+            n.className = 'notification ' + (type === 'success' ? 'success' : 'error');
+            n.textContent = msg;
+            
+            n.style.position = 'fixed';
+            n.style.top = '20px';
+            n.style.right = '20px';
+            n.style.padding = '10px';
+            n.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
+            n.style.color = 'white';
+            n.style.borderRadius = '5px';
+            n.style.zIndex = '9999';
+
+            document.body.appendChild(n);
+            setTimeout(()=> n.remove(), 3000);
         }
 
-        // --- 4. CORE DYNAMIC LOGIC ---
-
-        function renderProducts(products) {
-            productGrid.innerHTML = '';
-            
-            if (products.length === 0) {
-                noProductsMessage.style.display = 'block';
+        // --- 4. MODAL & REVIEW LOGIC ---
+        function renderReviews(list = []) {
+            if (!reviewsList || !noReviews) return;
+            reviewsList.innerHTML = '';
+            if (list.length === 0) {
+                noReviews.style.display = 'block';
                 return;
             }
-            noProductsMessage.style.display = 'none';
+            noReviews.style.display = 'none';
 
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product'; 
-                
-                card.dataset.id = product.id; 
-                card.dataset.desc = product.desc;
-                
-                card.innerHTML = `
-                    <img src="${product.image}" alt="${product.title}" onerror="this.onerror=null;this.src='placeholder.jpg';">
-                    <p class="product-title">${product.title}</p>
-                    <p class="product-price">₹ ${product.price.toLocaleString('en-IN')}</p>
-                    <div class="product-rating">${getStarRatingHTML(product.rating)}</div>
-                    <button class="add-button" onclick="addToCart(event, '${product.id}', '${product.title}', ${product.price})">ADD TO CART</button>
-                `;
-                
-                // Attach click listener for modal opening 
-                card.addEventListener('click', (ev) => {
-                    if (ev.target.closest('.add-button')) return; 
-                    openProductModal(card.dataset.id, card);
-                });
-
-                productGrid.appendChild(card);
+            list.forEach(r => {
+                const el = document.createElement('div');
+                el.className = 'review';
+                const time = r.time ? new Date(r.time).toLocaleString() : '';
+                el.innerHTML = `<div class="meta"><span class="rating">★ ${r.rating || ''}</span> <strong>${escapeHtml(r.name || 'Anonymous')}</strong> <span style="margin-left:8px;color:#888;font-size:13px">${escapeHtml(time)}</span></div>` +
+                                `<div class="body">${escapeHtml(r.text || '')}</div>`;
+                reviewsList.appendChild(el);
             });
         }
 
-        function applyFilters() {
-            let filteredProducts = [...initialProducts];
-            
-            // 1. Category Filter
-            const selectedCategory = categoryFilter.value;
-            if (selectedCategory !== 'all') {
-                filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
-            }
-            
-            // 2. Price Range Filter
-            const maxPrice = parseInt(priceRange.value);
-            filteredProducts = filteredProducts.filter(p => p.price <= maxPrice);
-            
-            // 3. Rating Filter
-            const selectedRatings = Array.from(allRatingCheckboxes)
-                .filter(cb => cb.checked)
-                .map(cb => parseFloat(cb.value));
-
-            if (selectedRatings.length > 0) {
-                const minSelectedRating = Math.min(...selectedRatings);
-                filteredProducts = filteredProducts.filter(p => p.rating >= minSelectedRating);
-            }
-
-            // 4. Sorting Logic
-            const sortMethod = sortOrder.value;
-            switch (sortMethod) {
-                case 'price-asc':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-desc':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'name-asc':
-                    filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
-                    break;
-                default:
-                    break;
-            }
-            
-            renderProducts(filteredProducts);
-        }
-
-        function resetFilters() {
-            document.getElementById('categoryFilter').value = 'all'; 
-            document.getElementById('priceRange').value = 85000; 
-            document.getElementById('sortOrder').value = 'default'; 
-            updatePriceLabel(); 
-            document.querySelectorAll('input[name=rating]').forEach(cb => cb.checked = false); 
-            applyFilters();
-        }
-        
-        // --- 5. ADAPTED MODAL/CART LOGIC ---
-
-        function addToCart(event, id, title, price) {
-            event.stopPropagation(); 
-            
-            const button = event.target.closest('.add-button');
-            const productData = { id, title, price: `₹ ${price.toLocaleString('en-IN')}`, img: initialProducts.find(p => p.id === id)?.image || 'placeholder.jpg' };
-            
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            cart.push(productData); 
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            button.classList.add('success');
-            setTimeout(()=> button.classList.remove('success'), 700);
-            showTempNotif('Item added to cart!', 'success');
-        }
-        
-        // Dark Mode Logic (Retained)
-        darkModeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-            if (document.body.classList.contains("dark-mode")) {
-                darkModeToggle.classList.remove("fa-moon");
-                darkModeToggle.classList.add("fa-sun");
-            } else {
-                darkModeToggle.classList.remove("fa-sun");
-                darkModeToggle.classList.add("fa-moon");
-            }
-        });
-
-
-        // --- MODAL AND REVIEWS LOGIC (Retained for functionality) ---
-        const escapeHtml = (s = '') => (s + '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-        const modal = document.getElementById('productModal');
-        const backdrop = document.getElementById('modalBackdrop');
-        const closeBtn = document.getElementById('modalClose');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalPrice = document.getElementById('modalPrice');
-        const modalDesc = document.getElementById('modalDesc');
-        const modalMainImg = document.getElementById('modalMainImg');
-        const modalThumbs = document.getElementById('modalThumbs');
-        const reviewsList = document.getElementById('reviewsList');
-        const noReviews = document.getElementById('noReviews');
-        const submitReviewBtn = document.getElementById('submitReviewModal');
-        const reviewerName = document.getElementById('reviewerNameModal');
-        const reviewRating = document.getElementById('reviewRatingModal');
-        const reviewText = document.getElementById('reviewTextModal');
-        const modalAddCart = document.getElementById('modalAddCart');
-
-        function openProductModal(id, productEl) {
-            const productData = initialProducts.find(p => p.id === id);
-            if (!productData) return; 
-
-            modalTitle.textContent = productData.title;
-            modalPrice.textContent = `₹ ${productData.price.toLocaleString('en-IN')}`;
-            modalDesc.textContent = productData.desc || 'No detailed description available.';
-            modalMainImg.src = productData.image; 
-            modalMainImg.alt = productData.title;
-
-            if (modalThumbs) {
-                modalThumbs.innerHTML = '';
-                const t = document.createElement('img');
-                t.src = productData.image;
-                t.className = 'thumb selected';
-                modalThumbs.appendChild(t);
-            }
-
-            loadReviewsFor(id);
-
-            if (modalAddCart) {
-                modalAddCart.onclick = (e) => {
-                    addToCart(e, id, productData.title, productData.price);
-                    modalAddCart.classList.add('success');
-                    setTimeout(()=> modalAddCart.classList.remove('success'), 700);
-                };
-            }
-
-            modal.setAttribute('aria-hidden','false');
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-            modal.dataset.currentId = id;
-        }
-
-        function closeModal() {
-            modal.setAttribute('aria-hidden','true');
-            modal.classList.remove('open');
-            document.body.style.overflow = '';
-            if (reviewerName) reviewerName.value = ''; 
-            if (reviewsList) reviewsList.innerHTML = '';
-            modal.dataset.currentId = '';
-        }
-        
-        if (backdrop) backdrop.addEventListener('click', closeModal);
-        if (closeBtn) closeBtn.addEventListener('click', closeModal);
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
-
         function loadReviewsFor(id) {
+            if (!reviewsList) return;
             const key = 'reviews:' + id;
             let arr = [];
             try {
@@ -531,71 +441,271 @@
             } catch (e) { arr = []; }
             renderReviews(arr);
         }
-
-        function renderReviews(list = []) {
-            if (!reviewsList) return;
-            reviewsList.innerHTML = '';
-            if (!list.length) {
-                if (noReviews) noReviews.style.display = 'block';
-                return;
-            }
-            if (noReviews) noReviews.style.display = 'none';
-            list.forEach(r => {
-                const el = document.createElement('div');
-                el.className = 'review';
-                const time = r.time ? new Date(r.time).toLocaleString() : '';
-                el.innerHTML = '<div class="meta"><span class="rating">★ ' + (r.rating||'') + '</span> <strong>' + escapeHtml(r.name||'') + '</strong> <span style="margin-left:8px;color:#888;font-size:13px">' + escapeHtml(time) + '</span></div>' +
-                                '<div class="body">' + escapeHtml(r.text||'') + '</div>';
-                reviewsList.appendChild(el);
-            });
-        }
         
+        window.openProductModal = function(id) {
+            if (!modal) return;
+            const productData = initialProducts.find(p => p.id === id);
+            if (!productData) return; 
+
+            if (modalTitle) modalTitle.textContent = productData.title;
+            if (modalPrice) modalPrice.textContent = `₹ ${productData.price.toLocaleString('en-IN')}`;
+            if (modalDesc) modalDesc.textContent = productData.desc || 'No detailed description available.';
+            if (modalMainImg) {
+                modalMainImg.src = productData.image || '';
+                modalMainImg.alt = productData.title || '';
+            }
+
+            modal.dataset.currentId = id;
+
+            loadReviewsFor(id);
+            
+            if (modalAddCartBtn) {
+                modalAddCartBtn.onclick = (e) => {
+                    window.addToCart && window.addToCart(e, id, productData.title, productData.price, productData.image);
+                };
+            }
+
+            modal.style.display = 'block';
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (!modal) return;
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (reviewerNameInput) reviewerNameInput.value = '';
+            if (reviewRatingSelect) reviewRatingSelect.value = '';
+            if (reviewTextInput) reviewTextInput.value = '';
+            modal.dataset.currentId = '';
+        }
+
+        // Attach modal close events safely
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        const mb = document.getElementById('modalBackdrop');
+        if (mb) mb.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && modal.style.display === 'block') closeModal(); });
+        
+        // Review Submission Logic (guarded)
         if (submitReviewBtn) {
             submitReviewBtn.addEventListener('click', () => {
-                const id = modal.dataset.currentId;
+                const id = modal && modal.dataset ? modal.dataset.currentId : null;
                 if (!id) return;
-                const name = (reviewerName && reviewerName.value.trim()) || 'Anonymous';
-                const rating = parseInt(reviewRating && reviewRating.value);
-                const text = reviewText && reviewText.value.trim();
+                const name = (reviewerNameInput && reviewerNameInput.value.trim()) || 'Anonymous';
+                const rating = parseInt(reviewRatingSelect && reviewRatingSelect.value);
+                const text = reviewTextInput && reviewTextInput.value.trim();
                 if (!rating || !text) {
-                    showTempNotif('Please provide rating and review text', 'error');
+                    showTempNotif('Please provide a rating and review text.', 'error');
                     return;
                 }
                 const key = 'reviews:' + id;
                 const cur = JSON.parse(localStorage.getItem(key) || '[]');
                 cur.unshift({ name, rating, text, time: Date.now() });
                 localStorage.setItem(key, JSON.stringify(cur));
-                renderReviews(cur);
-                if (reviewerName) reviewerName.value = '';
-                if (reviewRating) reviewRating.value = '';
-                if (reviewText) reviewText.value = '';
-                showTempNotif('Review added', 'success');
+                loadReviewsFor(id); 
+                
+                // Clear form
+                reviewerNameInput.value = '';
+                reviewRatingSelect.value = '';
+                reviewTextInput.value = '';
+                showTempNotif('Review added successfully!', 'success');
             });
+        }
+
+        // --- 5. FILTERING & RENDERING ---
+
+        function renderProducts(products) {
+            if (!productGrid) return;
+            productGrid.innerHTML = '';
+            
+            if (!products || products.length === 0) {
+                if (noProductsMessage) noProductsMessage.style.display = 'block';
+                return;
+            }
+            if (noProductsMessage) noProductsMessage.style.display = 'none';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product'; 
+                card.dataset.id = product.id; 
+                
+                // Build inner content safely (escape title)
+                const titleEsc = escapeHtml(product.title || '');
+                const imgSrc = product.image || 'placeholder.jpg';
+                const productHTML = `
+                    <img src="${imgSrc}" alt="${titleEsc}" onerror="this.onerror=null;this.src='placeholder.jpg';">
+                    <p class="product-title">${titleEsc}</p>
+                    <p class="product-price">₹ ${product.price.toLocaleString('en-IN')}</p>
+                    <div class="product-rating">${getStarRatingHTML(product.rating || 0)}</div>
+                    <button class="add-button">ADD TO CART</button>
+                `;
+                card.innerHTML = productHTML;
+
+                // Clicking the card (except the button) opens the modal
+                card.addEventListener('click', (evt) => {
+                    const targetBtn = evt.target.closest && evt.target.closest('.add-button');
+                    if (targetBtn) return; // click on button — don't open modal
+                    openProductModal(product.id);
+                });
+
+                // Add-to-cart button handler (safe)
+                const btn = card.querySelector('.add-button');
+                if (btn) {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        addToCart && addToCart(e, product.id, product.title, product.price, product.image);
+                    });
+                }
+
+                productGrid.appendChild(card);
+            });
+        }
+
+        // Populate category dropdown from product list
+        function populateCategories() {
+            if (!categoryFilter) return;
+            const cats = Array.from(new Set(initialProducts.map(p => p.category))).sort();
+            categoryFilter.innerHTML = '<option value="all">All Categories</option>' + cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+        }
+
+        window.applyFilters = function() {
+            let filteredProducts = [...initialProducts];
+            
+            // 1. Live Search Filter 
+            const query = (searchInput && searchInput.value || '').trim().toLowerCase();
+            if (query) {
+                filteredProducts = filteredProducts.filter(p => 
+                    (p.title || '').toLowerCase().includes(query) || (p.desc || '').toLowerCase().includes(query)
+                );
+            }
+            
+            // 1.5 Category filter (if present)
+            if (categoryFilter && categoryFilter.value && categoryFilter.value !== 'all') {
+                filteredProducts = filteredProducts.filter(p => p.category === categoryFilter.value);
+            }
+            
+            // 2. Price Range Filter
+            const maxPrice = parseInt(priceRange && priceRange.value || maxPriceDefault, 10);
+            filteredProducts = filteredProducts.filter(p => p.price <= maxPrice);
+            
+            // 3. Rating Filter
+            const selectedRatings = Array.from(allRatingCheckboxes || [])
+                .filter(cb => cb.checked)
+                .map(cb => parseFloat(cb.value));
+
+            if (selectedRatings.length > 0) {
+                const minSelectedRating = Math.max(...selectedRatings);
+                filteredProducts = filteredProducts.filter(p => p.rating >= minSelectedRating);
+            }
+
+            // 4. Sorting Logic
+            const sortMethod = sortOrder && sortOrder.value;
+            switch (sortMethod) {
+                case 'price-asc':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name-asc':
+                    filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+                    break;
+                default:
+                    // Default/Featured sort is by original order
+                    break;
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        window.resetFilters = function() {
+            if (searchInput) searchInput.value = '';
+            if (priceRange) priceRange.value = maxPriceDefault; 
+            if (sortOrder) sortOrder.value = 'default'; 
+            updatePriceLabel(); 
+            document.querySelectorAll('input[name=rating]').forEach(cb => cb.checked = false); 
+            if (categoryFilter) categoryFilter.value = 'all';
+            applyFilters();
         }
         
-        if (clearReviewBtn) {
-            clearReviewBtn.addEventListener('click', () => {
-                if (reviewerName) reviewerName.value = '';
-                if (reviewRating) reviewRating.value = '';
-                if (reviewText) reviewText.value = '';
+        // --- 6. Event Listeners ---
+        // live filter as the user types
+        if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+        // form submit (redirect logic) — use searchFormRef (safe)
+        if (searchFormRef) {
+            searchFormRef.addEventListener('submit', function (e) {
+                e.preventDefault(); // Stop the default form submission (page reload)
+                const query = (searchInput && searchInput.value || '').trim().toLowerCase();
+
+                // check keywords that redirect to specific pages
+                if (query.includes("saree")) {
+                    window.location.href = "saree.html";
+                } else if (query.includes("necklace")) {
+                    window.location.href = "neck.html";
+                } else if (query.includes("ring")) {
+                    window.location.href = "ring.html";
+                } else if (query.includes("kids")) {
+                    window.location.href = "kids.html";
+                } else {
+                    // otherwise apply filters on this page
+                    applyFilters(); 
+                }
             });
         }
 
-        function showTempNotif(msg, type='success') {
-            const n = document.createElement('div');
-            n.className = 'notification ' + (type === 'success' ? 'success' : 'error');
-            n.textContent = msg;
-            document.body.appendChild(n);
-            setTimeout(()=> n.classList.add('show'), 20);
-            setTimeout(()=> { n.classList.remove('show'); setTimeout(()=> n.remove(), 300); }, 2000);
+        // Add-to-cart function (global)
+        window.addToCart = function(event, id, title, price, img) {
+            if (event && event.stopPropagation) event.stopPropagation(); 
+            
+            const button = (event && event.target && event.target.closest) ? event.target.closest('.add-button') : null;
+            const productData = { id, title, price: `₹ ${Number(price).toLocaleString('en-IN')}`, img };
+            
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.push(productData); 
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Temporary visual feedback (if button found)
+            if (button) {
+                const prevText = button.textContent;
+                button.textContent = "ADDED!";
+                button.disabled = true;
+                setTimeout(() => {
+                    button.textContent = prevText;
+                    button.disabled = false;
+                }, 1000);
+            }
+            
+            showTempNotif('Item added to cart!', 'success');
+        }
+        
+        // Dark Mode Logic (guarded)
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+                const isDark = document.body.classList.contains("dark-mode");
+                darkModeToggle.classList.toggle("fa-moon", !isDark);
+                darkModeToggle.classList.toggle("fa-sun", isDark);
+            });
         }
 
-        // --- FINAL INITIALIZATION ---
-        // Runs immediately when the page and DOM are ready
+        // --- 7. FINAL INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', function() {
-            populateCategoryFilter();
+            // initialize price range / label
+            if (priceRange) priceRange.value = maxPriceDefault; 
             updatePriceLabel();
-            applyFilters(); // Renders ALL products instantly
+
+            // populate categories dropdown
+            populateCategories();
+
+            // wire simple listeners (if elements exist)
+            if (priceRange) priceRange.addEventListener('input', () => { updatePriceLabel(); applyFilters(); });
+            if (sortOrder) sortOrder.addEventListener('change', applyFilters);
+            if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+            document.querySelectorAll('input[name=rating]').forEach(cb => cb.addEventListener('change', applyFilters));
+
+            applyFilters(); 
         });
     </script>
 </body>

@@ -86,7 +86,7 @@
               var(--dark-bg-dark-mode),
               var(--dark-bg-dark-mode)
             )
-            padding-box,
+          padding-box,
           var(--accent-gradient) border-box;
         color: var(--light-text-dark-mode);
       }
@@ -213,14 +213,16 @@
       /* User Profile Section */
       .user-profile {
         background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,240,255,0.95));
-        padding: 15px 20px;
+        padding: 15px 30px; /* Increased horizontal padding */
         border-radius: var(--border-radius-lg);
-        margin: 20px 30px;
+        margin: 20px auto; /* Centers the profile block */
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-shadow: var(--shadow-medium);
         backdrop-filter: blur(10px);
+        max-width: 2000px; 
+        width: calc(100% - 60px); /* Use full width minus margins on desktop */
       }
 
       body.dark-mode .user-profile {
@@ -321,8 +323,10 @@
         height: 500px;
         overflow: hidden;
         border-radius: var(--border-radius-lg);
-        margin: 30px;
+        margin: 30px auto; /* Centers the slider block */
         box-shadow: var(--shadow-heavy);
+        max-width: 2000px;
+        width: calc(100% - 60px); /* Use full width minus margins on desktop */
       }
 
       .slide {
@@ -347,7 +351,8 @@
       /* Offer Banner */
       #offer {
         position: absolute;
-        top: 200px;
+        /* Adjusted top to account for user-profile/nav bar height */
+        top: 250px; 
         left: 50%;
         transform: translateX(-50%);
         background: var(--warm-gradient);
@@ -379,27 +384,35 @@
       .feature {
         padding: 80px 30px;
         background: var(--cool-gradient);
-        margin: 50px 0;
+        margin: 50px auto; /* Centers the feature block */
         border-radius: var(--border-radius-lg);
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         align-items: flex-start;
         gap: 30px;
+        max-width: 2000px;
+        width: calc(100% - 60px); /* Use full width minus margins on desktop */
       }
-
-      .feature p:first-child {
+      
+      /* FIX: Combined and centered title styling */
+      .feature p:first-child,
+      .fashion p:first-child {
         font-family: "Playfair Display", serif;
         font-size: 48px;
         font-weight: 700;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
         margin-bottom: 40px;
         text-align: center;
         width: 100%;
       }
+
+      .feature p:first-child {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      /* END FIX */
 
       .fbox {
         background: linear-gradient(145deg, #ffffff, #f0f0f0);
@@ -465,24 +478,20 @@
       .fashion {
         padding: 80px 30px;
         background: var(--orange-gradient);
-        margin: 50px 0;
+        margin: 50px auto; /* Centers the fashion block */
         border-radius: var(--border-radius-lg);
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         align-items: flex-start;
         gap: 30px;
+        max-width: 2000px;
+        width: calc(100% - 60px); /* Use full width minus margins on desktop */
       }
-
+      
       .fashion p:first-child {
-        font-family: "Playfair Display", serif;
-        font-size: 48px;
-        font-weight: 700;
         color: white;
-        margin-bottom: 40px;
-        text-align: center;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        width: 100%;
       }
 
       .fabox {
@@ -560,6 +569,10 @@
         border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
         position: relative;
         overflow: hidden;
+        /* FIX: Ensure footer content centers correctly */
+        max-width: 2000px;
+        margin: 0 auto;
+        width: 100%;
       }
 
       .footer::before {
@@ -654,6 +667,13 @@
         .fashion p:first-child {
           font-size: 40px;
         }
+        
+        .user-profile, .slider, .feature, .fashion {
+            /* Restore full width usage on smaller screens */
+            width: calc(100% - 40px);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
       }
 
       @media (max-width: 768px) {
@@ -685,7 +705,7 @@
         }
 
         .user-profile {
-          margin: 15px;
+          margin: 15px auto;
           padding: 10px 15px;
           flex-direction: column;
           gap: 10px;
@@ -693,7 +713,7 @@
 
         .slider {
           height: 300px;
-          margin: 20px;
+          margin: 20px auto;
         }
 
         #offer {
@@ -705,7 +725,7 @@
         .feature,
         .fashion {
           padding: 40px 20px;
-          margin: 30px 0;
+          margin: 30px auto;
         }
 
         .feature p:first-child,
@@ -735,13 +755,9 @@
           font-size: 20px;
         }
 
-        #searchInput {
-          width: 200px;
-        }
-
         .slider {
           height: 250px;
-          margin: 15px;
+          margin: 15px auto;
         }
 
         #offer {
@@ -819,7 +835,6 @@
     </style>
   </head>
   <body>
-    <!-- User Profile Section (shown when logged in) -->
     <div class="user-profile" id="userProfile" style="display: none;">
       <div class="user-info">
         <div class="user-avatar" id="userAvatar">U</div>
@@ -834,46 +849,42 @@
     </div>
 
     <div class="nav">
-      <div class="abril-fatface-regular">VARNIKAA</div>
+        <div class="abril-fatface-regular">VARNIKAA</div>
+        
+        <div class="nav-links">
+            <a href="varnikaa.html">Home</a>
+            <a href="About.html">About</a>
+            <a href="shop.html">Shop</a>
+            <a target="_blank" href="contact.html">Contact</a>
+        </div>
+        
+        <div class="nav-controls">
+            <div class="search-container">
+                <form id="searchForm">
+                    <input type="text" id="searchInput" placeholder="Search products">
+                    <i id="searchIcon" class="fas fa-search"></i>
+                </form>
+            </div>
+            
+            <select style="padding: 10px; background-color: transparent;" id="languageSelect">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+            </select>
+            
+            <a href="cart.html" aria-label="Shopping Cart">
+                <i id="cartIcon" class="fas fa-shopping-cart"></i>
+            </a>
 
-      <div id="hamburger-menu" class="hamburger-icon">
-        <i class="fa-solid fa-bars"></i>
-      </div>
-
-      <div class="nav-links">
-        <a href="varnikaa.html">Home</a>
-        <a href="About.html">About</a>
-        <a href="shop.html">Shop</a>
-        <a target="_blank" href="contact.html">Contact</a>
-      </div>
-
-      <div class="nav-controls">
-        <select name="language">
-          <option value="english">English</option>
-          <option value="hindi">हिंदी</option>
-        </select>
-        <form id="searchForm" class="search-container">
-          <input
-            type="text"
-            id="searchInput"
-            name="search"
-            placeholder="Search"
-          />
-          <i
-            class="fas fa-search"
-            id="searchIcon"
-            onclick="document.getElementById('searchForm').submit()"
-          ></i>
-        </form>
-        <i id="darkModeToggle" class="fas fa-moon"></i>
-        <a href="cart.html">
-          <i class="fas fa-shopping-cart" id="cartIcon"></i>
-        </a>
-      </div>
+            <i id="darkModeToggle" class="fas fa-moon"></i>
+            
+            <i id="hamburger-menu" class="fas fa-bars hamburger-icon"></i>
+        </div>
     </div>
+
+
     <div class="slider">
       <div class="slide" id="slideContainer">
-        <img src="https://dgpeydvdqxoazejoydco.supabase.co/storage/v1/object/public/product-images/assets/backimg.webp" alt="Summer Sale" />
+        <img src="assets/backimg.webp" alt="Summer Sale" />
         <img src="assets/backimg1.webp" alt="Summer Sale" />
         <img src="assets/backimg2.webp" alt="Summer Sale" />
         <img src="assets/backimg3.webp" alt="Summer Sale" />
@@ -881,8 +892,9 @@
       </div>
     </div>
     <div id="offer">Flat 50% Off on<br />Summer Collection!</div>
-<div class="feature">
-      <p style="font-size: 50px; padding: 20px 10px; margin-right: 70%"> Feature Products</p>
+    
+    <div class="feature">
+      <p> Feature Products</p>
       <div class="fbox">
         <img src="assets/t-shirt.jpg" alt="t-shirt" style="width: 100px; height: 120px"/>
         <p style="margin: 50px 40px; font-weight: 40px; font-size: larger"> Stylish T-Shirts</p>
@@ -900,8 +912,9 @@
         <p style="margin: 50px 60px; font-weight: 40px; font-size: larger"> Jewellery</p>
       </div>
     </div>
-        <div class="fashion">
-      <p style="font-size: 50px; padding: 20px 10px; margin-right: 80%">Fashion</p>
+    
+    <div class="fashion">
+      <p>Fashion</p>
       <div class="fabox">
         <a href="saree.html"><img src="assets/banaras.webp" alt="saree" /></a>
         <p style="margin: 5px 40px; font-weight: 40px; font-size: larger">Banaras-Saree</p>
@@ -923,37 +936,44 @@
         <p style="margin: 5px 45px; font-weight: 40px; font-size: larger">Kids-Dresses</p>
       </div>
     </div>
-    <div class="footer">
-      <div>
-        <p>Varnikaa</p>
-        <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
-      </div>
-      <div style="position: relative; top: 60px">
-        <p style="font-size: 25px">About Us</p><br />
-        <a href="#Our Story">Our Story</a><br /><br />
-        <a href="#Blog">Blog</a><br /><br />
-        <div class="social-icons">
-          <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-          <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    
+    <div class="footer-wrapper">
+        <div class="footer">
+          <div>
+            <p>Varnikaa</p>
+            <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
+          </div>
+          <div style="position: relative; top: 60px">
+            <p style="font-size: 25px">About Us</p><br />
+            <a href="#Our Story">Our Story</a><br /><br />
+            <a href="#Blog">Blog</a><br /><br />
+            <div class="social-icons">
+              <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+              <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+          <div style="position: relative; top: 60px">
+            <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
+            <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
+            <a href="#Privacy Policy"></a><br /><br />
+            <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
+            <a href="#FAQs">FAQs</a><br /><br />
+            <a href="#Track Orders">Track Orders</a>
+          </div>
+          <div style="position: relative; top: 40px; font-size: 20px">
+            <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
+            <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
+            <i class="fas fa-phone"></i> +91 8915643689
+          </div>
         </div>
-      </div>
-      <div style="position: relative; top: 60px">
-        <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
-        <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
-        <a href="#Privacy Policy"></a><br /><br />
-        <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
-        <a href="#FAQs">FAQs</a><br /><br />
-        <a href="#Track Orders">Track Orders</a>
-      </div>
-      <div style="position: relative; top: 40px; font-size: 20px">
-        <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
-        <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
-        <i class="fas fa-phone"></i> +91 8915643689
-      </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+      // --- General UI Logic (Slider, Dark Mode, Search) ---
+      
       // Slider functionality
       const slideContainer = document.getElementById("slideContainer");
       const slides = slideContainer.querySelectorAll("img");
@@ -965,8 +985,8 @@
         if (currentIndex >= slides.length) {
           currentIndex = 0;
         }
-        const translatePercentage = currentIndex * 20;
-        slideContainer.style.transform = `translateX(-${translatePercentage}%)`;
+        const translateValue = -currentIndex * (100 / slides.length);
+        slideContainer.style.transform = `translateX(${translateValue}%)`;
       }
 
       function startSlideshow() {
@@ -980,40 +1000,12 @@
       startSlideshow();
       slideContainer.addEventListener("mouseenter", stopSlideshow);
       slideContainer.addEventListener("mouseleave", startSlideshow);
-
+      
       // Dark mode toggle
-      const toggleIcon = document.getElementById("darkModeToggle");
-      toggleIcon.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        if (document.body.classList.contains("dark-mode")) {
-          toggleIcon.classList.remove("fa-moon");
-          toggleIcon.classList.add("fa-sun");
-        } else {
-          toggleIcon.classList.remove("fa-sun");
-          toggleIcon.classList.add("fa-moon");
-        }
+      document.getElementById("darkModeToggle").addEventListener("click", () => {
+          document.body.classList.toggle("dark-mode");
       });
-
-      // Search functionality
-      document.getElementById("searchForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const query = document.getElementById("searchInput").value.trim().toLowerCase();
-        
-        if (query === "saree" || query.includes("saree")) {
-          window.location.href = "saree.html";
-        } else if (query === "kurta" || query.includes("kurta")) {
-          window.location.href = "kurta.html";
-        } else if (query === "necklace" || query.includes("necklace")) {
-          window.location.href = "neck.html";
-        } else if (query === "ring" || query.includes("ring")) {
-          window.location.href = "ring.html";
-        } else if (query === "kids" || query.includes("kids")) {
-          window.location.href = "kids.html";
-        } else {
-          showNotification("No matching result found.", 'error');
-        }
-      });
-
+      
       // Mobile menu toggle
       const hamburgerIcon = document.getElementById("hamburger-menu");
       const navLinks = document.querySelector(".nav-links");
@@ -1021,149 +1013,128 @@
       hamburgerIcon.addEventListener("click", () => {
         navLinks.classList.toggle("nav-active");
       });
-
-      // Notification system
+      
+      // Notification system (copy-pasted from login.html for consistency)
       function showNotification(message, type = 'success') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-          notification.classList.add('show');
-        }, 100);
-        
-        setTimeout(() => {
-          notification.classList.remove('show');
+          const notification = document.createElement('div');
+          notification.className = `notification ${type}`;
+          notification.textContent = message;
+          
+          document.body.appendChild(notification);
+          
           setTimeout(() => {
-            if (document.body.contains(notification)) {
-              document.body.removeChild(notification);
-            }
-          }, 300);
-        }, 3000);
+              notification.classList.add('show');
+          }, 100);
+          
+          setTimeout(() => {
+              notification.classList.remove('show');
+              setTimeout(() => {
+                  if (document.body.contains(notification)) {
+                      document.body.removeChild(notification);
+                  }
+              }, 300);
+          }, 3000);
       }
-    </script>
-
-    <!-- Firebase Integration -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-      import {
-        getAuth,
-        onAuthStateChanged,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-      import {
-        getFirestore,
-        doc,
-        setDoc,
-        updateDoc,
-        arrayUnion,
-      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-      // CORRECTED: Use the same Firebase config as login.html
-      const firebaseConfig = {
-        apiKey: "AIzaSyDXB0f15S4aOjRFe9AAczLhnnLNd2aaCcA",
-        authDomain: "varnikaa-ef5ca.firebaseapp.com",
-        projectId: "varnikaa-ef5ca",
-        storageBucket: "varnikaa-ef5ca.firebasestorage.app",
-        messagingSenderId: "234866466",
-        appId: "1:234866466:web:68c2b3a2e05b70543c877b"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
-
-      // Authentication state management
-      onAuthStateChanged(auth, (user) => {
-        const userProfile = document.getElementById('userProfile');
-        const userEmail = document.getElementById('userEmail');
-        const userAvatar = document.getElementById('userAvatar');
+      
+      // Search functionality
+      document.getElementById("searchForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const query = document.getElementById("searchInput").value.trim().toLowerCase();
         
-        if (user) {
-          // User is logged in - show profile
+        if (query.includes("saree")) {
+          window.location.href = "saree.html";
+        } else if (query.includes("kurta")) {
+          window.location.href = "kurta.html";
+        } else if (query.includes("necklace")) {
+          window.location.href = "neck.html";
+        } else if (query.includes("ring")) {
+          window.location.href = "ring.html";
+        } else if (query.includes("kids")) {
+          window.location.href = "kids.html";
+        } else {
+          showNotification("No matching result found.", 'error');
+        }
+      });
+
+      
+      // --- Supabase Authentication & Activity Logging ---
+      
+      const SUPABASE_URL = 'https://dgpeydvdqxoazejoydco.supabase.co'; 
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncGV5ZHZkcXhvYXplam95ZGNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NDc0NTMsImV4cCI6MjA3NTIyMzQ1M30.0VoMb9qFjuHg15DabWYQ0RtKOHv1esB9cr66aU8_nbU';
+
+      const { createClient } = supabase;
+      const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      
+      const userProfile = document.getElementById('userProfile');
+      const userEmail = document.getElementById('userEmail');
+      const userAvatar = document.getElementById('userAvatar');
+
+      // Authentication Gate & Profile Display
+      document.addEventListener('DOMContentLoaded', async () => {
+        const { data: { session } } = await _supabase.auth.getSession();
+
+        if (session) {
+          // User is logged in - show their profile info
+          const user = session.user;
           userProfile.style.display = 'flex';
           userEmail.textContent = user.email;
           userAvatar.textContent = user.email.charAt(0).toUpperCase();
-          
-          console.log("User logged in:", user.email);
+          console.log("User session found:", user.email);
         } else {
-          // User not logged in - redirect to login
-          window.location.href = "Login.html";
+          // No user session found, redirect to the login page (Page Protection)
+          console.log("No user session. Redirecting to login.");
+          window.location.href = "login.html";
         }
       });
 
       // Logout functionality
       document.getElementById('logoutBtn').addEventListener('click', async () => {
-        try {
-          await signOut(auth);
-          showNotification("Successfully logged out!", 'success');
-          setTimeout(() => {
-            window.location.href = "Login.html";
-          }, 1000);
-        } catch (error) {
+        const { error } = await _supabase.auth.signOut();
+
+        if (error) {
           console.error("Logout error:", error);
           showNotification("Error logging out. Please try again.", 'error');
+        } else {
+          showNotification("Successfully logged out!", 'success');
+          // Redirect to login page after successful logout
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1000);
         }
       });
-
-      // Save user activity (for future features like favorites, cart, etc.)
+      
+      // Save user activity (Supabase equivalent)
       async function saveUserActivity(activity) {
-        const user = auth.currentUser;
-        if (!user) return;
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (!session) return;
 
         try {
-          const userRef = doc(db, "users", user.uid);
-          await setDoc(userRef, { activities: [] }, { merge: true });
-          await updateDoc(userRef, {
-            activities: arrayUnion({
-              ...activity,
-              timestamp: Date.now(),
-            }),
-          });
+          const { error } = await _supabase
+            .from('user_activities') // Assuming you have this table
+            .insert({ 
+              user_id: session.user.id,
+              activity_type: activity.type,
+              product_name: activity.product,
+            });
+            
+          if (error) throw error;
           console.log("Activity saved:", activity);
         } catch (error) {
-          console.error("Error saving activity:", error);
+          console.error("Error saving activity:", error.message);
         }
       }
-      // Function to add a product to the user's Firestore cart
-async function addToCart(productName) {
-    const user = auth.currentUser;
-    if (!user) {
-        // Use your existing showNotification function
-        showNotification("Please sign in to add items to your cart.", 'error'); 
-        return;
-    }
-
-    try {
-        const userRef = doc(db, "users", user.uid);
-        // Add item to the 'cart' array in the user's document
-        await updateDoc(userRef, {
-            cart: arrayUnion({
-                product: productName,
-                quantity: 1, // Start with 1, can be adjusted on cart.html
-                addedAt: Date.now()
-            })
-        });
-        showNotification(`${productName} added to cart!`);
-        // You would also call a function here to update the cart counter UI
-    } catch (error) {
-        console.error("Error adding to cart:", error);
-        showNotification("Failed to add to cart. Try again.", 'error');
-    }
-}
-
-      // Track product clicks for analytics
+      
+      // Track product clicks for analytics (Feature and Fashion Boxes)
       document.querySelectorAll('.fbox, .fabox').forEach(box => {
-        box.addEventListener('click', (e) => {
+        box.addEventListener('click', () => {
           const productName = box.querySelector('p').textContent.trim();
           saveUserActivity({
-            type: 'product_view',
+            type: 'product_category_view',
             product: productName
           });
         });
       });
+      
     </script>
   </body>
 </html>

@@ -1,237 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Varnikaa</title>
+    <title>Kids Dresses - Varnikaa</title>
     <link rel="stylesheet" href="shop.css">
-    <!-- For font Family' jacob' -->
     <link href="https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap" rel="stylesheet" />
-    <!-- for price font family-->
     <link href="https://fonts.googleapis.com/css2?family=Jomolhari&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  </head>
-  <body>
-    <div class="headerHead">
-      <div class="abril-fatface-regular" style="display: inline-block; font-size: 30px; font-weight: bold; text-align: center; margin-left: 30px; color: rgb(27, 55, 70);">VARNIKAA</div>
-      <div class="search">
-  <form id="searchForm">
-    <input type="text" id="searchInput" name="search" placeholder="Try or Search Saree, kurta, necklace, ring and kids wear">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Federant&display=swap" rel="stylesheet">
     
-    <i class="fas fa-search"></i>
-  </form>
-</div>
-      <div class="seperator"></div>
-      <a href="cart.html">
-      <i class="fas fa-shopping-cart" style="font-size: xx-large;"></i>
-      </a>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --warm-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --light-text-dark-mode: #e2e8f0;
+            --dark-bg-dark-mode: #1a202c;
+            --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --border-radius-lg: 20px;
+        }
+
+        /* 1. SHOP LAYOUT */
+        .shop-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px 60px;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* 2. FILTER SIDEBAR STYLES */
+        .filter-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: linear-gradient(145deg, var(--white), #f8f9ff);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-medium);
+            position: sticky;
+            top: 150px; 
+            height: fit-content;
+            text-align: left;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+        .filter-group:last-child { border-bottom: none; padding-bottom: 0; }
+        .filter-group h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            padding-left: 10px;
+        }
+        .filter-sidebar select, 
+        .filter-sidebar input[type="range"],
+        .sort-bar select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            background-color: var(--white);
+            color: var(--text-dark);
+            font-size: 1em;
+            cursor: pointer;
+        }
+        #priceValue { display: block; margin-top: 10px; font-weight: 600; color: #764ba2; text-align: center; }
+        .rating-checkbox-group label { display: block; margin-bottom: 8px; cursor: pointer; font-size: 0.95em; color: var(--text-light); }
+        
+        .reset-button { background: #e53e3e; color: white; padding: 10px; border-radius: 10px; border: none; width: 100%; cursor: pointer; margin-top: 10px;}
+
+        /* 3. SORTING BAR STYLES */
+        .product-content { flex-grow: 1; }
+        .sort-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .sort-bar label { font-weight: 500; color: var(--text-dark); margin-right: 10px; }
+        .sort-bar select { width: 200px; }
+
+        /* 4. PRODUCT GRID & CARD STYLES */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0; 
+            margin: 0;
+        }
+        .product-rating { color: #f59e0b; margin-top: 5px; }
+        .product {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+            background-color: var(--white);
+        }
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .product img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* 5. MODAL STYLES (for Quick View) */
+        .product-modal.open { display: block !important; }
+        .review { padding: 10px 0; border-bottom: 1px dotted #eee; }
+        .review:last-child { border-bottom: none; }
+        .review .meta .rating { color: #f59e0b; }
+        .review-form input, .review-form textarea, .review-form select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .review-form button { margin-top: 5px; }
+
+        /* 6. DARK MODE OVERRIDES */
+        body.dark-mode .filter-sidebar { background-color: #2d3748; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6); }
+        body.dark-mode .filter-group h4,
+        body.dark-mode .sort-bar label { color: var(--light-text-dark-mode); }
+        body.dark-mode .filter-sidebar select, 
+        body.dark-mode .filter-sidebar input[type="range"],
+        body.dark-mode .sort-bar select { background-color: #1a202c; border-color: #4a5568; color: var(--light-text-dark-mode);}
+        body.dark-mode .filter-group { border-bottom-color: #4a5568; }
+        body.dark-mode .product { background-color: #2d3748; border-color: #4a5568; color: var(--light-text-dark-mode);}
+        body.dark-mode .product-modal__panel { background: #1a202c; color: var(--light-text-dark-mode); }
+        body.dark-mode .review-form input, body.dark-mode .review-form textarea, body.dark-mode .review-form select { background: #34495e; border-color: #4a5568; color: var(--light-text-dark-mode);}
+
+        /* 7. RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 900px) {
+            .shop-container { flex-direction: column; padding: 20px 15px 40px; }
+            .filter-sidebar { width: 100%; position: static; margin-bottom: 20px; }
+            .product-modal__panel { width: 95%; }
+            .modal-grid { flex-direction: column; }
+            .modal-left { order: 2; }
+            .modal-right { order: 1; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="headerHead">
+        <div class="abril-fatface-regular" style="display: inline-block; font-size: 30px; font-weight: bold; text-align: center; margin-left: 30px; color: rgb(27, 55, 70);">VARNIKAA</div>
+        <div class="search">
+            <form id="searchForm">
+                <input type="text" id="searchInput" name="search" placeholder="Try or Search Saree, kurta, necklace, ring and kids wear">
+                <i class="fas fa-search"></i>
+            </form>
+        </div>
+        <div class="seperator"></div>
+        <a href="cart.html">
+            <i class="fas fa-shopping-cart" style="font-size: xx-large;"></i>
+        </a>
     </div>
-  <div class="nav">
-      <a href="varnikaa.html">Home</a>
+    <div class="nav">
+        <a href="varnikaa.html">Home</a>
         <a href="About.html">About</a>
         <a href="shop.html">Shop</a>
         <a target="_blank" href="contact.html">Contact</a>
         <select name="language" style="margin-left: 150px; padding: 5px;background-color: lightcyan;">
-        <option value="english">English</option>
-        <option value="hindi">हिंदी</option><br /><br />
+            <option value="english">English</option>
+            <option value="hindi">हिंदी</option><br /><br />
         </select>
         <i id="darkModeToggle" class="fas fa-moon" style="font-size: 22px; cursor: pointer;"></i>
     </div>
+    
     <div class="section-title">Kids Dresses</div>
-    <div class="product-list">
-      <div class="product">
-        <img src="assets/kid1.webp" alt="kid1" />
-        <p class="product-title"> Party wear Birthday Frock</p>
-        <p class="product-price"> ₹ 3,329</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid2.webp" alt="kid2" />
-        <p class="product-title">Ruffle & Floral Detailinig Frocks For Girls<br /></p>
-        <p class="product-price"> ₹3,240</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid3.webp" alt="kid3" />
-        <p class="product-title"> Sky Blue One-Shoulder Gown For Girls</p>
-        <p class="product-price"> ₹5,100</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid4.webp" alt="kid4" />
-        <p class="product-title"> Black Flare Design Girls Gown</p>
-        <p class="product-price"> ₹ 3,940</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid5.webp" alt="kid5" />
-        <p class="product-title"> Dark Red Satin Gown with Attached Bow and One-Side Ruffle Sleeve</p>
-        <p class="product-price"> ₹4,950</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid6.jpg" alt="kid6" />
-        <p class="product-title">Wedding Dresses For Kids</p>
-        <p class="product-price"> ₹5,500</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid9.webp" alt="kid7" />
-        <p class="product-title"> Multi Color Designer Gown for Girls</p>
-        <p class="product-price"> ₹4,450</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid8.webp" alt="kid8" />
-        <p class="product-title">Rani Layered Flair Gown for Girls</p>
-        <p class="product-price"> ₹3,990</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid7.webp" alt="kid9" />
-        <p class="product-title">Rama Plazzo Suit For Girls</p>
-        <p class="product-price"> ₹3,390</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid10.webp" alt="kid10" />
-        <p class="product-title">Vibrant Lemon Palazzo Suit for Girls</p>
-        <p class="product-price"> ₹3,390</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid11.webp" alt="kid11" />
-        <p class="product-title">Traditional Embroidered Girls Palazzo Set</p>
-        <p class="product-price"> ₹ 3,290</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid12.webp" alt="kid12" />
-        <p class="product-title">Marooon & Green Crochet Top & Palazzo Set for Girls</p>
-        <p class="product-price"> ₹ 1,930</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid13.webp" alt="kid13" />
-        <p class="product-title">Jeans top dress girl sale</p>
-        <p class="product-price"> ₹ 5,450</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid14.webp" alt="kid14" />
-        <p class="product-title">I Naina Dresses Girls Party(Festive) Top Jeans</p>
-        <p class="product-price"> ₹ 5,650</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid15.webp" alt="kid15" />
-        <p class="product-title">Sleeveless Girls Hosiery T-Shirt Denim Dangri Set, Casual Wear</p>
-        <p class="product-price"> ₹ 1,180</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid16.jpg" alt="kid16" />
-        <p class="product-title">Blue Chinese Collar Girls Denim Cotton Stylish Dress</p>
-        <p class="product-price"> ₹ 1,100</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid17.webp" alt="kid17" />
-        <p class="product-title">Rama Sequin Midi for Girls</p>
-        <p class="product-price"> ₹ 2,130</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid18.webp" alt="kid18" />
-        <p class="product-title"> Off Shoulder Western Set for Girls</p>
-        <p class="product-price"> ₹ 2,530</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid19.webp" alt="kid19" />
-        <p class="product-title">Blue Denim Skirt Top Set for Girls</p>
-        <p class="product-price"> ₹ 2,570</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
-      <div class="product">
-        <img src="assets/kid20.webp" alt="kid20" />
-        <p class="product-title">Blue Printed Skirt & Crop Top for Girls</p>
-        <p class="product-price"> ₹ 2,430</p>
-        <button class="add-button">ADD TO CART</button>
-      </div>
+
+    <div class="shop-container">
+        
+        <aside class="filter-sidebar">
+            <h3>Refine Dresses</h3>
+            
+            <div class="filter-group">
+                <h4>Max Price</h4>
+                <input type="range" id="priceRange" min="500" max="6000" value="6000" step="100" oninput="updatePriceLabel(); applyFilters()">
+                <span id="priceValue">Max: ₹6,000</span>
+            </div>
+
+            <div class="filter-group rating-checkbox-group">
+                <h4>Customer Rating</h4>
+                <label><input type="checkbox" name="rating" value="4.5" onchange="applyFilters()"> 4.5 Stars & Up</label>
+                <label><input type="checkbox" name="rating" value="4.0" onchange="applyFilters()"> 4.0 Stars & Up</label>
+                <label><input type="checkbox" name="rating" value="3.5" onchange="applyFilters()"> 3.5 Stars & Up</label>
+            </div>
+            
+            <button class="add-button reset-button" onclick="resetFilters()">
+                <i class="fas fa-redo"></i> Reset Filters
+            </button>
+        </aside>
+
+        <main class="product-content">
+            <div class="sort-bar">
+                <label for="sortOrder">Sort By:</label>
+                <select id="sortOrder" onchange="applyFilters()">
+                    <option value="default">Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                </select>
+            </div>
+
+            <div id="productGrid" class="product-list">
+                </div>
+            
+            <p id="noProductsMessage" style="text-align: center; margin-top: 50px; font-style: italic; color: #718096; display: none;">No kids wear match your current filters.</p>
+        </main>
     </div>
-    <div class="footer">
-      <div>
-        <p>Varnikaa</p>
-        <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
-      </div>
-      <div style="position: relative; top: 60px">
-        <p style="font-size: 25px">About Us</p><br />
-        <a href="#Our Story">Our Story</a><br /><br />
-        <a href="#Blog">Blog</a><br /><br />
-        <div class="social-icons">
-          <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-          <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+
+    <div id="productModal" class="product-modal" aria-hidden="true" style="display:none;">
+        <div class="product-modal__backdrop" id="modalBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001;"></div>
+        <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" 
+             style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; max-width: 900px; width: 90%; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            
+            <button id="modalClose" class="modal-close" aria-label="Close product details" style="position: absolute; top: 10px; right: 20px; font-size: 30px; border: none; background: transparent; cursor: pointer;">&times;</button>
+            
+            <div class="modal-grid" style="display: flex; gap: 20px;">
+                <div class="modal-left" style="flex: 1;">
+                    <img id="modalMainImg" src="" alt="Product image" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px;" />
+                </div>
+                
+                <div class="modal-right" style="flex: 1; display: flex; flex-direction: column;">
+                    <h2 id="modalTitle" style="font-size: 1.8em; margin-bottom: 10px;"></h2>
+                    <div id="modalPrice" class="modal-price" style="font-size: 1.5em; color: #764ba2; font-weight: bold; margin-bottom: 15px;"></div>
+                    <p id="modalDesc" class="modal-desc" style="margin-bottom: 20px; font-size: 0.9em;"></p>
+                    
+                    <div class="modal-actions" style="margin-bottom: 20px;">
+                        <button id="modalAddCart" class="btn add-button">Add to Cart</button>
+                    </div>
+                    
+                    <hr style="border: 0; height: 1px; background: #eee; margin: 10px 0;">
+                    
+                    <section id="modalReviews" style="flex-grow: 1; overflow-y: auto;">
+                        <h3 style="font-size: 1.2em; margin-bottom: 10px;">Customer Reviews</h3>
+                        <div id="reviewsList" style="max-height: 200px; overflow-y: auto; padding-right: 10px;"></div>
+                        <div id="noReviews" class="empty" style="display:none; color: #999; margin-top: 10px;">No reviews yet. Be the first!</div>
+                        
+                        <div class="review-form" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                            <input id="reviewerNameModal" type="text" placeholder="Your name" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;" />
+                            <select id="reviewRatingModal" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                                <option value="">Rating</option>
+                                <option value="5">5 — Excellent</option>
+                                <option value="4">4 — Good</option>
+                                <option value="3">3 — Okay</option>
+                                <option value="2">2 — Poor</option>
+                                <option value="1">1 — Bad</option>
+                            </select>
+                            <textarea id="reviewTextModal" placeholder="Write your review..." style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; min-height: 80px;"></textarea>
+                            <button id="submitReviewModal" class="btn add-button" style="background: #27ae60;">Submit review</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
-      </div>
-      <div style="position: relative; top: 60px">
-        <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
-        <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
-        <a href="#Privacy Policy"></a><br /><br />
-        <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
-        <a href="#FAQs">FAQs</a><br /><br />
-        <a href="#Track Orders">Track Orders</a>
-      </div>
-      <div style="position: relative; top: 40px; font-size: 20px">
-        <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
-        <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
-        <i class="fas fa-phone"></i> +91 8915643689
-      </div>
     </div>
+
+
+    <div class="footer">
+        <div>
+            <p>Varnikaa</p>
+            <p style="padding-left: 20px"> © 2025 Varnikaa. All rights reserved</p>
+        </div>
+        <div style="position: relative; top: 60px">
+            <p style="font-size: 25px">About Us</p><br />
+            <a href="#Our Story">Our Story</a><br /><br />
+            <a href="#Blog">Blog</a><br /><br />
+            <div class="social-icons">
+                <a href="https://www.instagram.com/shopvarnikaa/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://x.com/ShopVarnikaa" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/@shopvarnikaa" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div style="position: relative; top: 60px">
+            <p style="font-size: 25px; padding-bottom: 20px">Quick Links</p>
+            <a href="#Shipping and Exchanges">Shipping and Exchanges</a>
+            <a href="#Privacy Policy"></a><br /><br />
+            <a href="#Terms and Conditions">Terms and Conditions</a><br /><br />
+            <a href="#FAQs">FAQs</a><br /><br />
+            <a href="#Track Orders">Track Orders</a>
+        </div>
+        <div style="position: relative; top: 40px; font-size: 20px">
+            <i class="fas fa-map-marker-alt"></i> Find a Shop Near You<br /><br />
+            <i class="fas fa-envelope"></i> shopvarnikaa@gmail.com<br /><br />
+            <i class="fas fa-phone"></i> +91 8915643689
+        </div>
+    </div>
+
     <script>
-  const toggle = document.getElementById("darkModeToggle");
+        // --- 1. PRODUCT DATA (Kids Wear Items) ---
+        const initialProducts = [
+            { id: "kid-001", title: "Party wear Birthday Frock", category: "Kids Wear", price: 3329, rating: 4.6, image: "assets/kid1.webp", desc: "Beautiful party frock perfect for birthdays." },
+            { id: "kid-002", title: "Ruffle & Floral Detailinig Frocks For Girls", category: "Kids Wear", price: 3240, rating: 4.1, image: "assets/kid2.webp", desc: "Ruffled and floral detail frocks." },
+            { id: "kid-003", title: "Sky Blue One-Shoulder Gown For Girls", category: "Kids Wear", price: 5100, rating: 4.8, image: "assets/kid3.webp", desc: "Elegant one-shoulder gown." },
+            { id: "kid-004", title: "Black Flare Design Girls Gown", category: "Kids Wear", price: 3940, rating: 4.5, image: "assets/kid4.webp", desc: "Stylish black flared design gown." },
+            { id: "kid-005", title: "Dark Red Satin Gown with Attached Bow and One-Side Ruffle Sleeve", category: "Kids Wear", price: 4950, rating: 4.7, image: "assets/kid5.webp", desc: "Satin gown with bow and ruffle details." },
+            { id: "kid-006", title: "Wedding Dresses For Kids", category: "Kids Wear", price: 5500, rating: 4.9, image: "assets/kid6.jpg", desc: "Formal wear dress for weddings." },
+            { id: "kid-007", title: "Multi Color Designer Gown for Girls", category: "Kids Wear", price: 4450, rating: 4.4, image: "assets/kid9.webp", desc: "Vibrant multi-color designer gown." },
+            { id: "kid-008", title: "Rani Layered Flair Gown for Girls", category: "Kids Wear", price: 3990, rating: 4.3, image: "assets/kid8.webp", desc: "Layered flair gown in Rani pink." },
+            { id: "kid-009", title: "Rama Plazzo Suit For Girls", category: "Kids Wear", price: 3390, rating: 4.0, image: "assets/kid7.webp", desc: "Traditional palazzo suit." },
+            { id: "kid-010", title: "Vibrant Lemon Palazzo Suit for Girls", category: "Kids Wear", price: 3390, rating: 4.1, image: "assets/kid10.webp", desc: "Bright lemon yellow palazzo suit." },
+            { id: "kid-011", title: "Traditional Embroidered Girls Palazzo Set", category: "Kids Wear", price: 3290, rating: 4.2, image: "assets/kid11.webp", desc: "Embroidered palazzo set." },
+            { id: "kid-012", title: "Marooon & Green Crochet Top & Palazzo Set for Girls", category: "Kids Wear", price: 1930, rating: 3.8, image: "assets/kid12.webp", desc: "Crochet top and palazzo set." },
+            { id: "kid-013", title: "Jeans top dress girl sale", category: "Kids Wear", price: 5450, rating: 4.6, image: "assets/kid13.webp", desc: "Casual denim top and dress combo." },
+            { id: "kid-014", title: "I Naina Dresses Girls Party(Festive) Top Jeans", category: "Kids Wear", price: 5650, rating: 4.7, image: "assets/kid14.webp", desc: "Festive top and jeans set." },
+            { id: "kid-015", title: "Sleeveless Girls Hosiery T-Shirt Denim Dangri Set, Casual Wear", category: "Kids Wear", price: 1180, rating: 3.5, image: "assets/kid15.webp", desc: "Denim dungaree set." },
+            { id: "kid-016", title: "Blue Chinese Collar Girls Denim Cotton Stylish Dress", category: "Kids Wear", price: 1100, rating: 3.7, image: "assets/kid16.jpg", desc: "Denim dress with Chinese collar." },
+            { id: "kid-017", title: "Rama Sequin Midi for Girls", category: "Kids Wear", price: 2130, rating: 4.0, image: "assets/kid17.webp", desc: "Sequin midi dress." },
+            { id: "kid-018", title: "Off Shoulder Western Set for Girls", category: "Kids Wear", price: 2530, rating: 4.3, image: "assets/kid18.webp", desc: "Off-shoulder top with skirt/shorts set." },
+            { id: "kid-019", title: "Blue Denim Skirt Top Set for Girls", category: "Kids Wear", price: 2570, rating: 4.4, image: "assets/kid19.webp", desc: "Denim skirt and top set." },
+            { id: "kid-020", title: "Blue Printed Skirt & Crop Top for Girls", category: "Kids Wear", price: 2430, rating: 4.1, image: "assets/kid20.webp", desc: "Printed skirt and crop top combination." }
+        ];
 
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    toggle.classList.toggle("fa-moon", !isDark);
-    toggle.classList.toggle("fa-sun", isDark);
-  });
-  const addButtons = document.querySelectorAll('.add-button');
+        // --- 2. DOM Elements ---
+        const productGrid = document.getElementById('productGrid');
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+        const sortOrder = document.getElementById('sortOrder');
+        const noProductsMessage = document.getElementById('noProductsMessage');
+        const allRatingCheckboxes = document.querySelectorAll('input[name="rating"]');
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
+        const maxPriceDefault = 6000;
+        
+        // Modal DOM elements
+        const modal = document.getElementById('productModal');
+        const modalCloseBtn = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalMainImg = document.getElementById('modalMainImg');
+        const modalAddCartBtn = document.getElementById('modalAddCart');
+        const reviewsList = document.getElementById('reviewsList');
+        const noReviews = document.getElementById('noReviews');
+        const submitReviewBtn = document.getElementById('submitReviewModal');
+        const reviewerNameInput = document.getElementById('reviewerNameModal');
+        const reviewRatingSelect = document.getElementById('reviewRatingModal');
+        const reviewTextInput = document.getElementById('reviewTextModal');
 
-addButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const product = button.closest('.product');
-    const title = product.querySelector('.product-title').innerText;
-    const price = product.querySelector('.product-price').innerText;
-    const img = product.querySelector('img').src;
 
-    const productData = { title, price, img };
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(productData);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.location.href = "cart.html";
-  });
-});
-document.getElementById("searchForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const query = document.getElementById("searchInput").value.trim().toLowerCase();
-    if (query === "saree" || query.includes("saree")) {
-      window.location.href = "saree.html";
-    }else if (query === "kurta" || query.includes("kurta")) {
-      window.location.href = "kurta.html";
-    }else if (query === "necklace" || query.includes("necklace")) {
-      window.location.href = "neck.html";
-    }else if (query === "ring" || query.includes("ring")) {
-      window.location.href = "ring.html";
-    }else if (query === "kids" || query.includes("kids")) {
-      window.location.href = "kids.html";
-    }else {
-      alert("No matching result found.");
-    }
-  });
-</script>
-  </body>
+        // --- 3. HELPER FUNCTIONS ---
+        function getStarRatingHTML(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 !== 0;
+            let starsHTML = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars && halfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star" style="color:#ccc;"></i>'; 
+                }
+            }
+            return `<span style="font-size:1.2em; margin-right:5px;">${starsHTML}</span> (${rating.toFixed(1)})`;
+        }
+        
+        function updatePriceLabel() {
+            priceValue.textContent = `Max: ₹${parseInt(priceRange.value).toLocaleString('en-IN')}`;
+        }
+        
+        function escapeHtml(s = '') {
+            return (s + '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+        }
+        
+        function showTempNotif(msg, type='success') {
+            const n = document.createElement('div');
+            n.className = 'notification ' + (type === 'success' ? 'success' : 'error');
+            n.textContent = msg;
+            
+            n.style.position = 'fixed';
+            n.style.top = '20px';
+            n.style.right = '20px';
+            n.style.padding = '10px';
+            n.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
+            n.style.color = 'white';
+            n.style.borderRadius = '5px';
+            n.style.zIndex = '9999';
+
+            document.body.appendChild(n);
+            setTimeout(()=> n.remove(), 3000);
+        }
+
+        // --- 4. MODAL & REVIEW LOGIC ---
+        function renderReviews(list = []) {
+            reviewsList.innerHTML = '';
+            if (list.length === 0) {
+                noReviews.style.display = 'block';
+                return;
+            }
+            noReviews.style.display = 'none';
+
+            list.forEach(r => {
+                const el = document.createElement('div');
+                el.className = 'review';
+                const time = r.time ? new Date(r.time).toLocaleString() : '';
+                el.innerHTML = `<div class="meta"><span class="rating">★ ${r.rating || ''}</span> <strong>${escapeHtml(r.name || 'Anonymous')}</strong> <span style="margin-left:8px;color:#888;font-size:13px">${escapeHtml(time)}</span></div>` +
+                                `<div class="body">${escapeHtml(r.text || '')}</div>`;
+                reviewsList.appendChild(el);
+            });
+        }
+
+        function loadReviewsFor(id) {
+            const key = 'reviews:' + id;
+            let arr = [];
+            try {
+                const raw = localStorage.getItem(key);
+                if (raw) arr = JSON.parse(raw);
+            } catch (e) { arr = []; }
+            renderReviews(arr);
+        }
+        
+        window.openProductModal = function(id) {
+            const productData = initialProducts.find(p => p.id === id);
+            if (!productData) return; 
+
+            modalTitle.textContent = productData.title;
+            modalPrice.textContent = `₹ ${productData.price.toLocaleString('en-IN')}`;
+            modalDesc.textContent = productData.desc || 'No detailed description available.';
+            modalMainImg.src = productData.image; 
+            modalMainImg.alt = productData.title;
+
+            modal.dataset.currentId = id;
+
+            loadReviewsFor(id);
+            
+            modalAddCartBtn.onclick = (e) => {
+                window.addToCart(e, id, productData.title, productData.price, productData.image);
+            };
+
+            modal.style.display = 'block';
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            reviewerNameInput.value = '';
+            reviewRatingSelect.value = '';
+            reviewTextInput.value = '';
+            modal.dataset.currentId = '';
+        }
+
+        // Attach modal close events
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if (document.getElementById('modalBackdrop')) document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && modal.style.display === 'block') closeModal(); });
+        
+        // Review Submission Logic
+        submitReviewBtn.addEventListener('click', () => {
+            const id = modal.dataset.currentId;
+            if (!id) return;
+            const name = (reviewerNameInput && reviewerNameInput.value.trim()) || 'Anonymous';
+            const rating = parseInt(reviewRatingSelect && reviewRatingSelect.value);
+            const text = reviewTextInput && reviewTextInput.value.trim();
+            if (!rating || !text) {
+                showTempNotif('Please provide a rating and review text.', 'error');
+                return;
+            }
+            const key = 'reviews:' + id;
+            const cur = JSON.parse(localStorage.getItem(key) || '[]');
+            cur.unshift({ name, rating, text, time: Date.now() });
+            localStorage.setItem(key, JSON.stringify(cur));
+            loadReviewsFor(id); 
+            
+            // Clear form
+            reviewerNameInput.value = '';
+            reviewRatingSelect.value = '';
+            reviewTextInput.value = '';
+            showTempNotif('Review added successfully!', 'success');
+        });
+
+
+        // --- 5. FILTERING & RENDERING ---
+
+        function renderProducts(products) {
+            productGrid.innerHTML = '';
+            
+            if (products.length === 0) {
+                noProductsMessage.style.display = 'block';
+                return;
+            }
+            noProductsMessage.style.display = 'none';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product'; 
+                card.dataset.id = product.id; 
+                
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}" onerror="this.onerror=null;this.src='placeholder.jpg';">
+                    <p class="product-title">${product.title}</p>
+                    <p class="product-price">₹ ${product.price.toLocaleString('en-IN')}</p>
+                    <div class="product-rating">${getStarRatingHTML(product.rating)}</div>
+                    <button class="add-button" onclick="addToCart(event, '${product.id}', '${product.title}', ${product.price}, '${product.image}')">ADD TO CART</button>
+                `;
+                
+                // Clicking the card opens the modal
+                card.addEventListener('click', () => openProductModal(product.id));
+
+                productGrid.appendChild(card);
+            });
+        }
+
+        window.applyFilters = function() {
+            let filteredProducts = [...initialProducts];
+            
+            // 1. Live Search Filter 
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (query) {
+                filteredProducts = filteredProducts.filter(p => 
+                    p.title.toLowerCase().includes(query)
+                );
+            }
+            
+            // 2. Price Range Filter
+            const maxPrice = parseInt(priceRange.value);
+            filteredProducts = filteredProducts.filter(p => p.price <= maxPrice);
+            
+            // 3. Rating Filter
+            const selectedRatings = Array.from(allRatingCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => parseFloat(cb.value));
+
+            if (selectedRatings.length > 0) {
+                const minSelectedRating = Math.max(...selectedRatings);
+                filteredProducts = filteredProducts.filter(p => p.rating >= minSelectedRating);
+            }
+
+            // 4. Sorting Logic
+            const sortMethod = sortOrder.value;
+            switch (sortMethod) {
+                case 'price-asc':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name-asc':
+                    filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                default:
+                    break;
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        window.resetFilters = function() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('priceRange').value = maxPriceDefault; 
+            document.getElementById('sortOrder').value = 'default'; 
+            updatePriceLabel(); 
+            document.querySelectorAll('input[name=rating]').forEach(cb => cb.checked = false); 
+            applyFilters();
+        }
+        
+        // --- 6. Event Listeners ---
+        
+        // Listener for live filtering (as the user types)
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+        // Listener for form submission (Redirect Logic)
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Stop the default form submission (page reload)
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            // Check if user entered a category keyword
+            if (query.includes("saree")) {
+                window.location.href = "saree.html";
+            } else if (query.includes("kurta")) {
+                window.location.href = "kurta.html";
+            } else if (query.includes("ring")) {
+                window.location.href = "ring.html";
+            } else if (query.includes("kids")) {
+                window.location.href = "kids.html";
+            } else {
+                // If it's a specific product search or 'necklace' on the necklace page, apply filter
+                applyFilters(); 
+            }
+        });
+
+        window.addToCart = function(event, id, title, price, img) {
+            if (event && event.stopPropagation) event.stopPropagation(); 
+            
+            const button = (event && event.target && event.target.closest) ? event.target.closest('.add-button') : null;
+            const productData = { id, title, price: `₹ ${price.toLocaleString('en-IN')}`, img };
+            
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.push(productData); 
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Temporary visual feedback (if button found)
+            if (button) {
+                const prevText = button.textContent;
+                button.textContent = "ADDED!";
+                button.disabled = true;
+                setTimeout(() => {
+                    button.textContent = prevText;
+                    button.disabled = false;
+                }, 1000);
+            }
+            
+            showTempNotif('Item added to cart!', 'success');
+        }
+        
+        // Dark Mode Logic
+        darkModeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            darkModeToggle.classList.toggle("fa-moon", !isDark);
+            darkModeToggle.classList.toggle("fa-sun", isDark);
+        });
+
+
+        // --- 7. FINAL INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Note: populateCategoryFilter is skipped as there is no category dropdown on this page
+            priceRange.value = maxPriceDefault; 
+            updatePriceLabel();
+            applyFilters(); 
+        });
+    </script>
+</body>
 </html>

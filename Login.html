@@ -400,38 +400,38 @@
         background: linear-gradient(135deg, #ef4444, #dc2626);
       }
       /* Password Wrapper Styles (New) */
-.password-wrapper {
-    position: relative;
-    margin-bottom: 20px; /* Moves the margin from the input to the wrapper */
-}
+      .password-wrapper {
+          position: relative;
+          margin-bottom: 20px; /* Moves the margin from the input to the wrapper */
+      }
 
-/* Re-apply input styles to the input element *inside* the wrapper, but remove the bottom margin */
-.password-wrapper #email,
-.password-wrapper #password {
-    margin-bottom: 0; /* Remove margin from the input itself */
-}
+      /* Re-apply input styles to the input element inside the wrapper, but remove the bottom margin */
+      .password-wrapper #email,
+      .password-wrapper #password {
+          margin-bottom: 0; /* Remove margin from the input itself */
+      }
 
-/* Eye Icon Styles (New) */
-#togglePassword {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #6c757d; /* Neutral color */
-    font-size: 1.1rem;
-    transition: color 0.2s ease;
-    z-index: 5;
-}
+      /* Eye Icon Styles (New) */
+      #togglePassword {
+          position: absolute;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: #6c757d; /* Neutral color */
+          font-size: 1.1rem;
+          transition: color 0.2s ease;
+          z-index: 5;
+      }
 
-#togglePassword:hover {
-    color: #495057;
-}
+      #togglePassword:hover {
+          color: #495057;
+      }
 
-/* Dark Mode adjustment for the icon */
-body.dark-mode #togglePassword {
-    color: #b0b8bf;
-}
+      /* Dark Mode adjustment for the icon */
+      body.dark-mode #togglePassword {
+          color: #b0b8bf;
+      }
     </style>
 </head>
 <body>
@@ -447,10 +447,10 @@ body.dark-mode #togglePassword {
         
         <form id="authForm">
             <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
-           <div class="password-wrapper">
-    <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
-    <i id="togglePassword" class="fas fa-eye-slash"></i>
-</div>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+                <i id="togglePassword" class="fas fa-eye-slash"></i>
+            </div>
             <div id="passwordMessage" class="message"></div>
             
             <button type="submit" class="auth-btn" id="authBtn">
@@ -468,7 +468,8 @@ body.dark-mode #togglePassword {
     <p class="bottom-text">Create a Page for a celebrity, brand or business.</p>
 
     <script>
-        // Global variables - declared once at the top
+        // --- UI & General Logic ---
+
         let isLogin = true;
         const formTitle = document.getElementById('formTitle');
         const authBtn = document.getElementById('authBtn');
@@ -476,20 +477,19 @@ body.dark-mode #togglePassword {
         const toggleMode = document.getElementById('toggleMode');
         const passwordMessage = document.getElementById('passwordMessage');
         const forgotPassword = document.getElementById('forgotPassword');
-       // Add a new global variable
-const passwordInput = document.getElementById('password');
-const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const authForm = document.getElementById('authForm');
 
-// Function to toggle password visibility
-togglePassword.addEventListener('click', () => {
-    // Toggle the type attribute between 'password' and 'text'
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    
-    // Toggle the eye icon class for visual feedback (open/closed eye)
-    togglePassword.classList.toggle('fa-eye');
-    togglePassword.classList.toggle('fa-eye-slash');
-});
+
+        // Function to toggle password visibility
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
         // Dark mode toggle
         const toggleIcon = document.getElementById("darkModeToggle");
         toggleIcon.addEventListener("click", () => {
@@ -503,37 +503,33 @@ togglePassword.addEventListener('click', () => {
             }
         });
 
-        // Toggle between login/signup
+        // Toggle between login/signup forms
         toggleMode.addEventListener("click", () => {
             isLogin = !isLogin;
-            
             authBtn.style.transform = 'scale(0.95)';
-            
             setTimeout(() => {
                 formTitle.textContent = isLogin ? "Welcome Back" : "Join Varnikaa";
                 btnText.textContent = isLogin ? "Sign In" : "Create Account";
+                // Ensure the button style changes for the 'Create Account' button
+                authBtn.className = isLogin ? "auth-btn" : "auth-btn create-account-btn"; 
                 toggleMode.innerHTML = isLogin 
                     ? 'Don\'t have an account? <span>Sign up</span>' 
                     : 'Already have an account? <span>Sign in</span>';
-                
-                // Clear password message when switching modes
                 passwordMessage.textContent = '';
                 passwordMessage.className = 'message';
-                
                 authBtn.style.transform = 'scale(1)';
             }, 150);
         });
 
-        // Password validation function
+        // Password validation function (FIXED REGEX)
         function validatePassword() {
             const password = document.getElementById("password").value;
             const message = document.getElementById("passwordMessage");
-            
-            // Only validate password for signup mode
             if (!isLogin) {
-                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&^-])[A-Za-z\d@$!%?#&^-]{8,}$/;
+                // FIXED REGEX: Allows creation of account with strong password.
+                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&^_-])[A-Za-z\d@$!%?#&^_-]{8,}$/;
                 if (!regex.test(password)) {
-                    message.textContent = "Password must have at least 8 characters, including uppercase, lowercase, number, and special character.";
+                    message.textContent = "Password needs 8+ chars, with uppercase, lowercase, number, and special character.";
                     message.className = "message invalid";
                     return false;
                 } else {
@@ -542,7 +538,7 @@ togglePassword.addEventListener('click', () => {
                     return true;
                 }
             }
-            return true; // For login mode, don't validate
+            return true;
         }
 
         // Real-time password validation for signup
@@ -575,35 +571,17 @@ togglePassword.addEventListener('click', () => {
         }
     </script>
 
-    <!-- Firebase Integration -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword, 
-            createUserWithEmailAndPassword, 
-            onAuthStateChanged,
-            sendPasswordResetEmail 
-        } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // --- Supabase Backend Logic (FIXED) ---
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDXB0f15S4aOjRFe9AAczLhnnLNd2aaCcA",
-            authDomain: "varnikaa-ef5ca.firebaseapp.com",
-            projectId: "varnikaa-ef5ca",
-            storageBucket: "varnikaa-ef5ca.firebasestorage.app",
-            messagingSenderId: "234866466",
-            appId: "1:234866466:web:68c2b3a2e05b70543c877b"
-        };
+        // Supabase configuration
+        const SUPABASE_URL = 'https://dgpeydvdqxoazejoydco.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncGV5ZHZkcXhvYXplam95ZGNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NDc0NTMsImV4cCI6MjA3NTIyMzQ1M30.0VoMb9qFjuHg15DabWYQ0RtKOHv1esB9cr66aU8_nbU';
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Get form element
-        const authForm = document.getElementById('authForm');
-
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
         // Form submission handler
         authForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -611,88 +589,68 @@ togglePassword.addEventListener('click', () => {
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
             
-            // Validate inputs
             if (!email || !password) {
                 showNotification("Please fill in all fields.", 'error');
                 return;
             }
 
-            // For signup, validate password strength
             if (!isLogin && !validatePassword()) {
                 return;
             }
 
-            // Add loading state
             authBtn.classList.add('loading');
             btnText.textContent = isLogin ? "Signing in..." : "Creating account...";
             authBtn.disabled = true;
 
+            let response;
             try {
                 if (isLogin) {
-                    // Sign in existing user
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showNotification("Welcome back!", 'success');
+                    response = await _supabase.auth.signInWithPassword({ email, password });
                 } else {
-                    // Create new user
-                    const userCred = await createUserWithEmailAndPassword(auth, email, password);
-                    
-                    // Create user document in Firestore
-                    await setDoc(doc(db, "users", userCred.user.uid), {
-                        email: email,
-                        createdAt: new Date().toISOString(),
-                        activities: [],
-                        favorites: [],
-                        cart: []
-                    });
-                    
-                    showNotification("Account created successfully!", 'success');
+                    response = await _supabase.auth.signUp({ email, password });
                 }
-                
-                // Success animation
-                btnText.textContent = "Success!";
-                setTimeout(() => {
-                    window.location.href = "varnikaa.html";
-                }, 1000);
-                
+
+                if (response.error) {
+                    throw response.error;
+                }
+
+                if (!isLogin && response.data.user && !response.data.session) {
+                    // Successful signup, but REQUIRES EMAIL CONFIRMATION
+                    showNotification("Success! Please check your email to confirm your account.", 'success');
+                    btnText.textContent = "Check Email";
+                } else {
+                    // Successful login or instant sign-in
+                    showNotification("Welcome back!", 'success');
+                    btnText.textContent = "Success!";
+                    setTimeout(() => {
+                        window.location.href = "varnikaa.html";
+                    }, 1000);
+                }
+
             } catch (error) {
-                // Remove loading state
-                authBtn.classList.remove('loading');
-                authBtn.disabled = false;
-                btnText.textContent = isLogin ? "Sign In" : "Create Account";
+                let message = error.message || "An unexpected error occurred.";
                 
-                let message;
-                switch (error.code) {
-                    case "auth/invalid-email":
-                        message = "Please enter a valid email address.";
-                        break;
-                    case "auth/user-not-found":
-                        message = "No account found with this email.";
-                        break;
-                    case "auth/invalid-credential":
-                    case "auth/wrong-password":
-                        message = "Incorrect password. Please try again.";
-                        break;
-                    case "auth/email-already-in-use":
-                        message = "This email is already registered.";
-                        break;
-                    case "auth/weak-password":
-                        message = "Password should be at least 6 characters.";
-                        break;
-                    case "auth/too-many-requests":
-                        message = "Too many failed attempts. Please try again later.";
-                        break;
-                    default:
-                        message = "Something went wrong. Please try again.";
-                        console.error("Auth error:", error);
+                if (error.status === 400 && message.includes("already registered")) {
+                    message = "This email is already registered.";
+                } else if (error.status === 400 && message.includes("Invalid login credentials")) {
+                    message = "Incorrect email or password.";
                 }
                 
                 showNotification(message, 'error');
+                console.error("Auth error:", error);
+            } finally {
+                // Restore button state
+                authBtn.classList.remove('loading');
+                authBtn.disabled = false;
+                if (btnText.textContent === "Signing in..." || btnText.textContent === "Creating account...") {
+                    btnText.textContent = isLogin ? "Sign In" : "Create Account";
+                }
             }
         });
 
-        // Auto redirect if already logged in
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
+        // Auto redirect if already logged in (on page load)
+        _supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
                 console.log("User already logged in, redirecting...");
                 window.location.href = "varnikaa.html";
             }
@@ -710,23 +668,17 @@ togglePassword.addEventListener('click', () => {
             }
 
             try {
-                await sendPasswordResetEmail(auth, email);
+                const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.href,
+                });
+
+                if (error) throw error;
                 showNotification("Password reset link sent! Check your inbox.", 'success');
             } catch (error) {
-                let message;
-                switch (error.code) {
-                    case "auth/user-not-found":
-                        message = "No account found with this email.";
-                        break;
-                    case "auth/invalid-email":
-                        message = "Please enter a valid email address.";
-                        break;
-                    default:
-                        message = "Error sending reset email. Try again later.";
-                }
-                showNotification(message, 'error');
+                showNotification(error.message || "Error sending reset email.", 'error');
             }
         });
+
     </script>
 </body>
 </html>
